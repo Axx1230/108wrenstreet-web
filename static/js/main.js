@@ -462,7 +462,7 @@
   desktopMotion.addEventListener?.("change", setupFlight);
   reducedMotion.addEventListener?.("change", setupFlight);
 
-  const initialSection = {{ page_section|tojson if page_section else 'null' }};
+  const initialSection = document.body.dataset.pageSection || null;
   if (initialSection) {
     window.addEventListener("load", () => {
       document.getElementById(initialSection)?.scrollIntoView({ behavior: "smooth", block: "start" });

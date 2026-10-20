@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   {% block head %}{% endblock %}
 </head>
-<body>
+<body data-page-section="{{ page_section or '' }}">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header">
     <a class="wordmark" href="/" aria-label="108 Wren Street home">108 <span>WREN STREET</span></a>
