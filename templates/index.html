@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="intake section-shell" id="intake" aria-labelledby="intake-title">
+  <div class="intake-topline">
+    <p class="eyebrow">108 WREN STREET / MEMORY SERVICES <span>//</span> CASE FILE #143</p>
+    <button class="sound-toggle" type="button" aria-pressed="false" aria-label="Turn ambient sound on">
+      <span class="sound-icon" aria-hidden="true">♫</span> AMBIENT SOUND <span class="sound-state">OFF</span>
+    </button>
+  </div>
+  <div class="intake-layout">
+    <div class="intake-copy">
+      <p class="eyebrow accent-cyan">PRIVATE MEMORY EXTRACTION / SESSION 01</p>
+      <h1 id="intake-title">The past is<br><em>still in there.</em></h1>
+      <p class="lede">Some memories ask to be kept. Others insist on being found. Your session is ready when you are.</p>
+      <div class="telemetry" aria-label="Session telemetry">
+        <div><span class="eyebrow">EXTRACTION WINDOW</span><strong id="countdown">00:13:37</strong></div>
+        <div><span class="eyebrow">MEMORY SYNAPSE</span><strong>100<span class="unit">%</span></strong></div>
+        <div class="telemetry-track" aria-hidden="true"><span></span></div>
+      </div>
+      <a class="button button-primary" href="#memory-vault">ENTER THE EXPERIENCE <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="appointment-scene">
+      <button class="appointment-card" type="button" aria-label="Flip private appointment card" aria-pressed="false">
+        <span class="card-inner">
+          <span class="card-face card-front">
+            <span class="card-stamp">PRIVATE<br>APPOINTMENT</span>
+            <span class="card-mark">108<span>.</span></span>
+            <span class="card-label">MEMORY SERVICES / WREN STREET</span>
+            <span class="card-index">TURN TO INSPECT / 143</span>
+          </span>
+          <span class="card-face card-back">
+            <span class="eyebrow">CLIENT COPY / 143-A</span>
+            <span class="card-back-title">Your memory<br>is waiting.</span>
+            <span class="card-label">SESSION 01 — PRIVATE INTAKE</span>
+            <span class="card-index">RETURN TO FRONT ↻</span>
+          </span>
+        </span>
+      </button>
+      <span class="flip-hint"><span class="pulse-dot"></span> TAP / DRAG TO FLIP CARD</span>
+      <span class="scene-coordinate">51°30'26.4"N / 00°07'39.6"W</span>
+    </div>
+  </div>
+  <div class="dossier">
+    <div class="dossier-heading"><span class="eyebrow">CASE DOSSIER</span><span class="eyebrow">ACCESS LEVEL / RESTRICTED</span></div>
+    <div class="dossier-tabs" role="tablist" aria-label="Case file information">
+      <button id="tab-client" class="dossier-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="dossier-panel" data-file="client">CLIENT</button>
+      <button id="tab-subject" class="dossier-tab" type="button" role="tab" aria-selected="false" aria-controls="dossier-panel" data-file="subject" tabindex="-1">SUBJECT</button>
+      <button id="tab-staff" class="dossier-tab" type="button" role="tab" aria-selected="false" aria-controls="dossier-panel" data-file="staff" tabindex="-1">STAFF</button>
+    </div>
+    <div class="dossier-panel" id="dossier-panel" role="tabpanel" aria-labelledby="tab-client" tabindex="0">
+      <span class="dossier-key">FILE 143-A</span><p data-dossier-copy>IDENTITY <span class="redacted">████████████</span> / MEMORY STATUS: FRAGMENTED</p>
+      <span class="dossier-classification">DO NOT DUPLICATE</span>
+    </div>
+  </div>
+</section>
+
+<section class="vault section-shell" id="memory-vault" aria-labelledby="vault-title">
+  <div class="section-heading">
+    <div><p class="eyebrow">01 / CASE RECONSTRUCTION</p><h2 id="vault-title">Forget the past.<br><em>Remember now.</em></h2></div>
+    <p class="section-note">THREE OBJECTS LOGGED<br>FRAGILITY: HIGH</p>
+  </div>
+  <div class="vault-stage">
+    <article class="artifact-card">
+      <button class="artifact-trigger artifact-novel" type="button" data-artifact="novel" aria-haspopup="dialog">
+        <span class="artifact-number">01 / OBJECT</span><span class="artifact-illustration" aria-hidden="true"><span class="book-shape"></span></span>
+        <span class="artifact-title">The Little Lie</span><span class="artifact-caption">A collection of selected poems</span>
+        <span class="artifact-open">OPEN MEMORY <span aria-hidden="true">↗</span></span>
+      </button>
+    </article>
+    <article class="artifact-card">
+      <button class="artifact-trigger artifact-teaspoon" type="button" data-artifact="teaspoon" aria-haspopup="dialog">
+        <span class="artifact-number">02 / OBJECT</span><span class="artifact-illustration" aria-hidden="true"><span class="spoon-shape"></span></span>
+        <span class="artifact-title">The Confession</span><span class="artifact-caption">A diner / the first date</span>
+        <span class="artifact-open">OPEN MEMORY <span aria-hidden="true">↗</span></span>
+      </button>
+    </article>
+    <article class="artifact-card">
+      <button class="artifact-trigger artifact-ring" type="button" data-artifact="ring" aria-haspopup="dialog">
+        <span class="artifact-number">03 / OBJECT</span><span class="artifact-illustration" aria-hidden="true"><span class="ring-shape"></span></span>
+        <span class="artifact-title">Total Belonging</span><span class="artifact-caption">A promise beneath the oak</span>
+        <span class="artifact-open">OPEN MEMORY <span aria-hidden="true">↗</span></span>
+      </button>
+    </article>
+  </div>
+  <div class="vault-footnote"><span>SELECT AN OBJECT TO BEGIN RECONSTRUCTION</span><span>MEMORY INTEGRITY / 68.4%</span></div>
+</section>
+
+<section class="reconstruction section-shell" aria-label="Memory reconstruction sequence">
+  <div class="reconstruction-copy">
+    <p class="eyebrow">02 / MEMORY VAULT</p><h2>What do you keep<br>when you <em>let go?</em></h2>
+    <p>Move through the fragments. The shape of a life is never just one thing.</p>
+    <span class="eyebrow">THREE FRAGMENTS / ONE SHARED MEMORY</span>
+  </div>
+  <div class="memory-flight" aria-label="Memory fragments">
+    <article class="flight-card"><span class="eyebrow">FRAGMENT 01 / THE LIE</span><h3>“I said I was fine.”</h3><p>Some truths arrive quietly.</p></article>
+    <article class="flight-card"><span class="eyebrow">FRAGMENT 02 / THE CONFESSION</span><h3>“I knew, before you did.”</h3><p>A spoon left cooling between two cups.</p></article>
+    <article class="flight-card"><span class="eyebrow">FRAGMENT 03 / THE PROMISE</span><h3>“Meet me here again.”</h3><p>Even the roots remember.</p></article>
+  </div>
+</section>
+
+<section class="memorial section-shell" id="oak-tree" aria-labelledby="memorial-title">
+  <div class="section-heading memorial-heading">
+    <div><p class="eyebrow accent-amber">03 / THE OAK TREE</p><h2 id="memorial-title">What remains when<br><em>love is forgotten?</em></h2><p class="lede">Leave a memory you refuse to erase.</p></div>
+    <span class="memorial-mark" aria-hidden="true">✳</span>
+  </div>
+  <div class="memorial-layout">
+    <form class="memory-form panel" id="memory-form">
+      <label for="memory-text">YOUR MEMORY <span class="eyebrow">MAX 280 CHARACTERS</span></label>
+      <textarea id="memory-text" name="body" maxlength="280" rows="4" placeholder="Write a moment worth keeping…" required></textarea>
+      <div class="form-meta"><label for="memory-author">SIGNED AS</label><span id="memory-count">0 / 280</span></div>
+      <input id="memory-author" name="author" maxlength="80" placeholder="Name or Anonymous">
+      <label for="memory-category">FILE UNDER</label>
+      <select id="memory-category" name="category">
+        <option value="MEMORY">MEMORY</option><option value="LOVE">LOVE</option><option value="LOSS">LOSS</option><option value="PEOPLE">PEOPLE</option>
+      </select>
+      <button class="button button-primary" type="submit">LEAVE A MEMORY <span aria-hidden="true">→</span></button>
+      <p class="form-feedback" id="memory-feedback" role="status" aria-live="polite"></p>
+    </form>
+    <div class="memory-wall">
+      <div class="filter-bar" role="group" aria-label="Filter memories by category">
+        <button class="filter-pill is-active" type="button" data-filter="ALL" aria-pressed="true">ALL</button>
+        <button class="filter-pill" type="button" data-filter="LOVE" aria-pressed="false">LOVE</button>
+        <button class="filter-pill" type="button" data-filter="LOSS" aria-pressed="false">LOSS</button>
+        <button class="filter-pill" type="button" data-filter="MEMORY" aria-pressed="false">MEMORY</button>
+        <button class="filter-pill" type="button" data-filter="PEOPLE" aria-pressed="false">PEOPLE</button>
+      </div>
+      <div class="memory-feed" id="memory-feed" aria-live="polite" aria-busy="false">
+        <p class="empty-state">Gathering the memories…</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="press section-shell" id="epk" aria-labelledby="press-title">
+  <div class="section-heading"><div><p class="eyebrow">04 / ELECTRONIC PRESS KIT</p><h2 id="press-title">A story about<br><em>what survives.</em></h2></div><span class="section-note">108 WREN STREET<br>SHORT FILM / 2025</span></div>
+  <div class="press-layout">
+    <div class="press-copy">
+      <dl class="film-facts">
+        <div><dt>DIRECTOR</dt><dd>Josh Oremule</dd></div><div><dt>FORMAT</dt><dd>Short Film</dd></div><div><dt>GENRE</dt><dd>Sci-Fi Drama</dd></div><div><dt>THEMES</dt><dd>Memory / Love / Loss</dd></div>
+      </dl>
+      <blockquote>“If you could edit the pain out of your past, would you still recognise the person left behind?”<cite>JOSH OREMULE / DIRECTOR’S STATEMENT</cite></blockquote>
+    </div>
+    <div class="press-downloads panel"><p class="eyebrow">PRESS MATERIALS</p>
+      <div class="download-row" aria-disabled="true">PRESS KIT <span>PDF / ASSET NOT ATTACHED</span></div>
+      <div class="download-row" aria-disabled="true">OFFICIAL POSTER <span>IMAGE / ASSET NOT ATTACHED</span></div>
+      <div class="download-row" aria-disabled="true">PRODUCTION STILLS <span>ARCHIVE / ASSET NOT ATTACHED</span></div>
+      <p class="download-note">DOWNLOADS WILL BE ENABLED WHEN APPROVED PRESS ASSETS ARE ADDED.</p>
+    </div>
+  </div>
+  <div class="screenings">
+    <div class="screenings-heading"><p class="eyebrow">UPCOMING SCREENINGS</p><span class="eyebrow">2025 — 2026</span></div>
+    <article class="screening-card"><div><span class="eyebrow">MANCHESTER / UK</span><h3>Manchester New Voices</h3><p>HOME, Manchester · 18:30</p></div><button class="text-button rsvp-trigger" type="button" data-event-id="manchester-new-voices" data-event-name="Manchester New Voices" data-location="HOME, Manchester" data-date="2026-11-14T18:30:00">RSVP / TICKETS <span aria-hidden="true">→</span></button></article>
+    <article class="screening-card"><div><span class="eyebrow">LONDON / UK</span><h3>Sci-Fi London</h3><p>Bethnal Green, London · 20:00</p></div><button class="text-button rsvp-trigger" type="button" data-event-id="sci-fi-london" data-event-name="Sci-Fi London" data-location="Bethnal Green, London" data-date="2026-12-02T20:00:00">RSVP / TICKETS <span aria-hidden="true">→</span></button></article>
+  </div>
+</section>
+
+<section class="collaborate section-shell" id="collaborate" aria-labelledby="collaborate-title">
+  <div class="section-heading"><div><p class="eyebrow">05 / COLLABORATOR NETWORK</p><h2 id="collaborate-title">Make room for<br><em>another voice.</em></h2></div><span class="section-note">OPEN CALL<br>ALL DISCIPLINES</span></div>
+  <div class="production-layout">
+    <div class="production">
+      <p class="eyebrow">PRODUCTION BREAKDOWN</p>
+      <div class="accordion-list">
+        <details class="production-item"><summary><span>01</span> CAMERA <span class="production-spec">ARRI ALEXA MINI / VINTAGE GLASS</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Intimate, tactile images shaped by available light, restrained movement and vintage glass. The camera stays close to the details memory leaves behind.</p></div></div></details>
+        <details class="production-item"><summary><span>02</span> LIGHTING <span class="production-spec">PRACTICAL / NATURAL SOURCES</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Warm practical sources anchor the remembered world; clinical cool tones frame the extraction room.</p></div></div></details>
+        <details class="production-item"><summary><span>03</span> SOUND <span class="production-spec">SPATIAL / SUBJECTIVE</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Room tone, breath and small recurring sounds move between present-tense clarity and the soft distortion of recollection.</p></div></div></details>
+        <details class="production-item"><summary><span>04</span> EDITING <span class="production-spec">NOAH LEWIS / MEMORY RHYTHM</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Fragments overlap and return with changed meaning, letting the emotional edit follow the logic of remembering.</p></div></div></details>
+        <details class="production-item"><summary><span>05</span> COLOUR <span class="production-spec">AMBER / CLINICAL CYAN</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Two tonal worlds distinguish the fragile warmth of lived moments from the precise, cool present of the memory service.</p></div></div></details>
+      </div>
+    </div>
+    <div class="crew">
+      <p class="eyebrow">THE PEOPLE BEHIND THE FRAME</p>
+      <div class="crew-grid">
+        <article class="crew-card"><span class="crew-initial">JO</span><h3>Josh Oremule</h3><p>Director</p><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">PORTFOLIO / LINKEDIN ↗</a></article>
+        <article class="crew-card"><span class="crew-initial">NL</span><h3>Noah Lewis</h3><p>Editor</p><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">PORTFOLIO / LINKEDIN ↗</a></article>
+        <article class="crew-card"><span class="crew-initial">SK</span><h3>Sana Khan</h3><p>Sound Designer</p><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">PORTFOLIO / LINKEDIN ↗</a></article>
+      </div>
+    </div>
+  </div>
+  <div class="open-call">
+    <div class="open-call-copy"><p class="eyebrow accent-cyan">THE NEXT FRAME COULD BE YOURS</p><h3>Bring us what<br><em>you see.</em></h3><p>Tell us what you do, what you’re curious about, and how you’d like to be part of the next chapter.</p></div>
+    <form id="collaborate-form" class="collaborate-form">
+      <div class="form-row"><label>FULL NAME<input name="name" autocomplete="name" required maxlength="100"></label><label>EMAIL ADDRESS<input type="email" name="email" autocomplete="email" required maxlength="254"></label></div>
+      <label>SPECIALISM<select name="specialism" required><option value="">SELECT YOUR DISCIPLINE</option><option>Camera</option><option>Lighting</option><option>Sound</option><option>Editing</option><option>Colour</option><option>Production</option><option>Writing</option><option>Other</option></select></label>
+      <div class="form-row"><label>PORTFOLIO URL<input type="url" name="portfolio_url" placeholder="https://"></label><label>SHOWREEL URL<input type="url" name="showreel_url" placeholder="https://"></label></div>
+      <label>MESSAGE<textarea name="message" rows="3" maxlength="2000" placeholder="A little about your practice…"></textarea></label>
+      <button class="button button-primary" type="submit">SEND YOUR DETAILS <span aria-hidden="true">→</span></button>
+      <p class="form-feedback" id="collaborate-feedback" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<dialog class="memory-dialog" id="artifact-dialog" aria-labelledby="artifact-dialog-title">
+  <form method="dialog"><button class="dialog-close" aria-label="Close memory">×</button></form>
+  <p class="eyebrow" id="artifact-dialog-kicker">OBJECT / 01</p><h2 id="artifact-dialog-title"></h2>
+  <div class="dialog-still" aria-hidden="true"><span>RECONSTRUCTED STILL / 143</span></div>
+  <div class="dialog-script" id="artifact-dialog-script"></div>
+  <button class="text-button artifact-audio" type="button"><span aria-hidden="true">▶</span> PLAY MEMORY AUDIO</button>
+</dialog>
+
+<dialog class="memory-dialog rsvp-dialog" id="rsvp-dialog" aria-labelledby="rsvp-title">
+  <form method="dialog"><button class="dialog-close" aria-label="Close RSVP">×</button></form>
+  <p class="eyebrow">SCREENING RSVP / 108 WREN STREET</p><h2 id="rsvp-title">Save your<br><em>seat.</em></h2>
+  <p class="rsvp-event-details" id="rsvp-event-details"></p>
+  <form id="rsvp-form" class="dialog-form">
+    <input type="hidden" name="event_id" id="rsvp-event-id">
+    <label>FULL NAME<input name="name" autocomplete="name" required maxlength="100"></label>
+    <label>EMAIL ADDRESS<input type="email" name="email" autocomplete="email" required maxlength="254"></label>
+    <label>SEATS<select name="seats"><option value="1">1 SEAT</option><option value="2">2 SEATS</option><option value="3">3 SEATS</option><option value="4">4 SEATS</option><option value="5">5 SEATS</option><option value="6">6 SEATS</option></select></label>
+    <button class="button button-primary" type="submit">CONFIRM RSVP <span aria-hidden="true">→</span></button>
+    <button class="text-button calendar-button" type="button" disabled>ADD TO CALENDAR (.ICS) ↓</button>
+    <p class="form-feedback" id="rsvp-feedback" role="status" aria-live="polite"></p>
+  </form>
+</dialog>
+{% endblock %}
