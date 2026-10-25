@@ -989,30 +989,141 @@ h2 em,
   font-family: var(--font-mono);
   font-size: .72rem;
 }
-<<<<<<< HEAD
-.memory-form textarea, .collaborate-form textarea { resize: vertical; }
-.memory-form textarea::placeholder, .memory-form input::placeholder, .collaborate-form input::placeholder, .collaborate-form textarea::placeholder { color: #626b77; }
-.form-meta { display: flex; justify-content: space-between; color: var(--text-muted); font-family: var(--font-mono); font-size: .58rem; letter-spacing: .08em; }
-.form-meta label { color: inherit; }
-.memory-form .button { margin-top: .4rem; }
-.form-feedback { min-height: 1.3em; margin: 0; color: var(--accent-cyan); font-size: .78rem; }
-.form-feedback.is-error { color: #fda4af; }
-.memory-wall { min-width: 0; }
-.filter-bar { position: sticky; z-index: 8; top: 72px; display: flex; gap: .5rem; padding: .8rem 0; overflow-x: auto; border-bottom: 1px solid var(--border-clinical); background: rgba(10,11,13,.93); scrollbar-width: thin; }
-.filter-pill { flex: 0 0 auto; padding: .55rem 1rem; border: 1px solid var(--border-active); background: transparent; color: var(--text-muted); cursor: pointer; font-family: var(--font-mono); font-size: .61rem; letter-spacing: .08em; }
-.filter-pill:hover, .filter-pill.is-active { border-color: var(--accent-amber); background: rgba(245,158,11,.1); color: var(--accent-amber); }
-.memory-feed { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: .8rem; padding-top: 1rem; }
-.memory-card { padding: 1.15rem; border: 1px solid var(--border-clinical); background: linear-gradient(145deg, #17191d, #111316); animation: fade-in .25s ease both; }
-.memory-card:nth-child(3n) { background: linear-gradient(145deg, #1c1914, #121212); }
-.memory-card blockquote { margin: 0 0 1rem; font-family: var(--font-serif); font-size: 1.2rem; line-height: 1.45; }
+
+HEAD .memory-form textarea,
+.collaborate-form textarea {
+  resize: vertical;
+}
+
+.memory-form textarea::placeholder,
+.memory-form input::placeholder,
+.collaborate-form input::placeholder,
+.collaborate-form textarea::placeholder {
+  color: #626b77;
+}
+
+.form-meta {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: .58rem;
+  letter-spacing: .08em;
+}
+
+.form-meta label {
+  color: inherit;
+}
+
+.memory-form .button {
+  margin-top: .4rem;
+}
+
+.form-feedback {
+  min-height: 1.3em;
+  margin: 0;
+  color: var(--accent-cyan);
+  font-size: .78rem;
+}
+
+.form-feedback.is-error {
+  color: #fda4af;
+}
+
+.memory-wall {
+  min-width: 0;
+}
+
+.filter-bar {
+  position: sticky;
+  z-index: 8;
+  top: 72px;
+  display: flex;
+  gap: .5rem;
+  padding: .8rem 0;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border-clinical);
+  background: rgba(10, 11, 13, .93);
+  scrollbar-width: thin;
+}
+
+.filter-pill {
+  flex: 0 0 auto;
+  padding: .55rem 1rem;
+  border: 1px solid var(--border-active);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: .61rem;
+  letter-spacing: .08em;
+}
+
+.filter-pill:hover,
+.filter-pill.is-active {
+  border-color: var(--accent-amber);
+  background: rgba(245, 158, 11, .1);
+  color: var(--accent-amber);
+}
+
+.memory-feed {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: .8rem;
+  padding-top: 1rem;
+}
+
+.memory-card {
+  padding: 1.15rem;
+  border: 1px solid var(--border-clinical);
+  background: linear-gradient(145deg, #17191d, #111316);
+  animation: fade-in .25s ease both;
+}
+
+.memory-card:nth-child(3n) {
+  background: linear-gradient(145deg, #1c1914, #121212);
+}
+
+.memory-card blockquote {
+  margin: 0 0 1rem;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  line-height: 1.45;
+}
+
 /* CHANGED: memory card hover */
-.memory-card { transition: border-color .25s ease, transform .25s ease; }
-.memory-card:hover { border-color: var(--accent-amber); transform: translateY(-3px); }
-.memory-card footer { display: flex; align-items: center; justify-content: space-between; gap: .5rem; color: var(--text-muted); font-family: var(--font-mono); font-size: .58rem; }
-.memory-card .memory-category { color: var(--accent-amber); letter-spacing: .08em; }
-.empty-state { grid-column: 1 / -1; padding: 2rem 0; color: var(--text-muted); font-family: var(--font-mono); font-size: .72rem; }
-=======
->>>>>>> af19dfcf4dbdecaddfe9f216f1618fc835944de7
+.memory-card {
+  transition: border-color .25s ease, transform .25s ease;
+}
+
+.memory-card:hover {
+  border-color: var(--accent-amber);
+  transform: translateY(-3px);
+}
+
+.memory-card footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: .58rem;
+}
+
+.memory-card .memory-category {
+  color: var(--accent-amber);
+  letter-spacing: .08em;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 2rem 0;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: .72rem;
+}
 
 /* Screen 4: press kit and screening RSVP */
 .film-facts {
