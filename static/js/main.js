@@ -4,6 +4,20 @@
   const $ = (selector, scope = document) => scope.querySelector(selector);
   const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 
+  const navLinks = $$(".site-nav a");
+  const updateCurrentNavLink = () => {
+    const section = window.location.hash.slice(1) || document.body.dataset.pageSection;
+    navLinks.forEach((link) => {
+      if (link.hash.slice(1) === section) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  };
+  updateCurrentNavLink();
+  window.addEventListener("hashchange", updateCurrentNavLink);
+
   async function requestJSON(url, options = {}) {
     const headers = { ...(options.headers || {}) };
     if (options.body !== undefined) headers["Content-Type"] = "application/json";
