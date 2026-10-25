@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
+<!-- CHANGED: pass section name from Flask to JS -->
+<script>window.PAGE_SECTION = {{ page_section|tojson if page_section else 'null' }};</script>
 <section class="intake section-shell" id="intake" aria-labelledby="intake-title">
   <div class="intake-topline">
     <p class="eyebrow">108 WREN STREET / MEMORY SERVICES <span>//</span> CASE FILE #143</p>
@@ -100,7 +102,9 @@
 
 <section class="memorial section-shell" id="oak-tree" aria-labelledby="memorial-title">
   <div class="section-heading memorial-heading">
-    <div><p class="eyebrow accent-amber">03 / THE OAK TREE</p><h2 id="memorial-title">What remains when<br><em>love is forgotten?</em></h2><p class="lede">Leave a memory you refuse to erase.</p></div>
+    <div><p class="eyebrow accent-amber">03 / THE OAK TREE</p><h2 id="memorial-title">What remains when<br><em>love is forgotten?</em></h2><p class="lede">Leave a memory you refuse to erase.</p>
+      <!-- ADDED: memory counter -->
+  <p class="eyebrow accent-amber" id="memory-total">MEMORIES ON THE WALL: —</p></div>
     <span class="memorial-mark" aria-hidden="true">✳</span>
   </div>
   <div class="memorial-layout">
@@ -111,7 +115,8 @@
       <input id="memory-author" name="author" maxlength="80" placeholder="Name or Anonymous">
       <label for="memory-category">FILE UNDER</label>
       <select id="memory-category" name="category">
-        <option value="MEMORY">MEMORY</option><option value="LOVE">LOVE</option><option value="LOSS">LOSS</option><option value="PEOPLE">PEOPLE</option>
+        <option value="MEMORY">MEMORY</option><option value="LOVE">LOVE</option><option value="LOSS">LOSS</option><option value="PEOPLE">PEOPLE</option> <option value="FAMILY">FAMILY</option>   <!-- ADDED -->
+      </select>
       </select>
       <button class="button button-primary" type="submit">LEAVE A MEMORY <span aria-hidden="true">→</span></button>
       <p class="form-feedback" id="memory-feedback" role="status" aria-live="polite"></p>
@@ -123,6 +128,7 @@
         <button class="filter-pill" type="button" data-filter="LOSS" aria-pressed="false">LOSS</button>
         <button class="filter-pill" type="button" data-filter="MEMORY" aria-pressed="false">MEMORY</button>
         <button class="filter-pill" type="button" data-filter="PEOPLE" aria-pressed="false">PEOPLE</button>
+        <button class="filter-pill" type="button" data-filter="FAMILY" aria-pressed="false">FAMILY</button>   <!-- ADDED -->
       </div>
       <div class="memory-feed" id="memory-feed" aria-live="polite" aria-busy="false">
         <p class="empty-state">Gathering the memories…</p>
@@ -151,6 +157,8 @@
     <div class="screenings-heading"><p class="eyebrow">UPCOMING SCREENINGS</p><span class="eyebrow">2025 — 2026</span></div>
     <article class="screening-card"><div><span class="eyebrow">MANCHESTER / UK</span><h3>Manchester New Voices</h3><p>HOME, Manchester · 18:30</p></div><button class="text-button rsvp-trigger" type="button" data-event-id="manchester-new-voices" data-event-name="Manchester New Voices" data-location="HOME, Manchester" data-date="2026-11-14T18:30:00">RSVP / TICKETS <span aria-hidden="true">→</span></button></article>
     <article class="screening-card"><div><span class="eyebrow">LONDON / UK</span><h3>Sci-Fi London</h3><p>Bethnal Green, London · 20:00</p></div><button class="text-button rsvp-trigger" type="button" data-event-id="sci-fi-london" data-event-name="Sci-Fi London" data-location="Bethnal Green, London" data-date="2026-12-02T20:00:00">RSVP / TICKETS <span aria-hidden="true">→</span></button></article>
+  <!-- ADDED: new screening -->
+<article class="screening-card"><div><span class="eyebrow">EDINBURGH / UK</span><h3>Edinburgh Short Film Night</h3><p>The Cameo, Edinburgh · 19:00</p></div><button class="text-button rsvp-trigger" type="button" data-event-id="edinburgh-short-film-night" data-event-name="Edinburgh Short Film Night" data-location="The Cameo, Edinburgh" data-date="2027-01-20T19:00:00">RSVP / TICKETS <span aria-hidden="true">→</span></button></article>
   </div>
 </section>
 
@@ -173,6 +181,8 @@
         <article class="crew-card"><span class="crew-initial">JO</span><h3>Josh Oremule</h3><p>Director</p><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">PORTFOLIO / LINKEDIN ↗</a></article>
         <article class="crew-card"><span class="crew-initial">NL</span><h3>Noah Lewis</h3><p>Editor</p><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">PORTFOLIO / LINKEDIN ↗</a></article>
         <article class="crew-card"><span class="crew-initial">SK</span><h3>Sana Khan</h3><p>Sound Designer</p><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">PORTFOLIO / LINKEDIN ↗</a></article>
+      <!-- ADDED: new crew member -->
+<article class="crew-card"><span class="crew-initial">AB</span><h3>Name Surname</h3><p>Cinematographer</p><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">PORTFOLIO / LINKEDIN ↗</a></article>
       </div>
     </div>
   </div>

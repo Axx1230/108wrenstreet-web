@@ -67,7 +67,7 @@ def collaborate():
 @app.get("/api/memories")
 def get_memories():
     category = request.args.get("category", "ALL").strip().upper()
-    allowed_categories = {"ALL", "LOVE", "LOSS", "MEMORY", "PEOPLE"}
+    allowed_categories = {"ALL", "LOVE", "LOSS", "MEMORY", "PEOPLE", "FAMILY"}
     if category not in allowed_categories:
         return jsonify(error="Choose a valid memory category."), 400
 
@@ -86,6 +86,11 @@ def get_memories():
     return jsonify(memories=[dict(row) for row in rows])
 
 
+@app.get("/api/memories/count")
+def memories_count():
+    total = get_db().execute("SELECT COUNT(*) FROM memories").fetchone()[0]
+    return jsonify(total=total)
+
 @app.post("/api/memories")
 def create_memory():
     payload, error = json_payload(("body",))
@@ -103,7 +108,7 @@ def create_memory():
         return jsonify(error="Memory text must be 280 characters or fewer."), 400
     if len(author) > 80:
         return jsonify(error="Author attribution must be 80 characters or fewer."), 400
-    if category not in {"LOVE", "LOSS", "MEMORY", "PEOPLE"}:
+    if category not in {"LOVE", "LOSS", "MEMORY", "PEOPLE", "FAMILY"}:
         return jsonify(error="Choose a valid memory category."), 400
 
     cursor = get_db().execute(

@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS memories (
     body TEXT NOT NULL CHECK (length(body) BETWEEN 1 AND 280),
     author TEXT NOT NULL DEFAULT 'Anonymous',
     category TEXT NOT NULL DEFAULT 'MEMORY'
-        CHECK (category IN ('LOVE', 'LOSS', 'MEMORY', 'PEOPLE')),
+       CHECK (category IN ('LOVE', 'LOSS', 'MEMORY', 'PEOPLE', 'FAMILY')),   -- CHANGED
     created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 

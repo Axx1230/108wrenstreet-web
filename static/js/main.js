@@ -160,6 +160,17 @@
       if (requestId === memoryRequestId) memoryFeed.setAttribute("aria-busy", "false");
     }
   }
+  // ADDED: memory counter
+  async function loadMemoryTotal() {
+    const el = $("#memory-total");
+    if (!el) return;
+    try {
+      const data = await requestJSON("/api/memories/count");
+      el.textContent = `MEMORIES ON THE WALL: ${data.total}`;
+    } catch (error) {
+      el.textContent = "";
+    }
+  }
 
   if (memoryFeed) loadMemories();
 
@@ -197,7 +208,8 @@
       memoryForm.reset();
       $("#memory-count").textContent = "0 / 280";
       memoryFeedback.textContent = "Your memory has been added to the wall.";
-      await loadMemories(activeFilter);
+      await loadMemories(activeFilter); 
+      await loadMemoryTotal();   // ADDED
     } catch (error) {
       memoryFeedback.textContent = error.message;
       memoryFeedback.classList.add("is-error");
@@ -462,7 +474,7 @@
   desktopMotion.addEventListener?.("change", setupFlight);
   reducedMotion.addEventListener?.("change", setupFlight);
 
-  const initialSection = {{ page_section|tojson if page_section else 'null' }};
+ const initialSection = window.PAGE_SECTION;   // CHANGED
   if (initialSection) {
     window.addEventListener("load", () => {
       document.getElementById(initialSection)?.scrollIntoView({ behavior: "smooth", block: "start" });

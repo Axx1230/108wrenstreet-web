@@ -194,6 +194,9 @@ h1 em, h2 em, .open-call h3 em { color: var(--accent-cyan); font-family: var(--f
 .memory-card { padding: 1.15rem; border: 1px solid var(--border-clinical); background: linear-gradient(145deg, #17191d, #111316); animation: fade-in .25s ease both; }
 .memory-card:nth-child(3n) { background: linear-gradient(145deg, #1c1914, #121212); }
 .memory-card blockquote { margin: 0 0 1rem; font-family: var(--font-serif); font-size: 1.2rem; line-height: 1.45; }
+/* CHANGED: memory card hover */
+.memory-card { transition: border-color .25s ease, transform .25s ease; }
+.memory-card:hover { border-color: var(--accent-amber); transform: translateY(-3px); }
 .memory-card footer { display: flex; align-items: center; justify-content: space-between; gap: .5rem; color: var(--text-muted); font-family: var(--font-mono); font-size: .58rem; }
 .memory-card .memory-category { color: var(--accent-amber); letter-spacing: .08em; }
 .empty-state { grid-column: 1 / -1; padding: 2rem 0; color: var(--text-muted); font-family: var(--font-mono); font-size: .72rem; }
