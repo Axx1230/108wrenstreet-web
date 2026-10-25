@@ -474,7 +474,7 @@
   desktopMotion.addEventListener?.("change", setupFlight);
   reducedMotion.addEventListener?.("change", setupFlight);
 
- const initialSection = window.PAGE_SECTION;   // CHANGED
+  const initialSection = document.body.dataset.pageSection || null;
   if (initialSection) {
     window.addEventListener("load", () => {
       document.getElementById(initialSection)?.scrollIntoView({ behavior: "smooth", block: "start" });
