@@ -1,4 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
+<script>window.PAGE_SECTION = {{ page_section|tojson if page_section else 'null' }};</script>
+
 {% endblock %}
