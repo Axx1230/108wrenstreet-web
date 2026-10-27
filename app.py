@@ -71,6 +71,12 @@ def get_memories():
     if category not in allowed_categories:
         return jsonify(error="Choose a valid memory category."), 400
 
+@app.get("/press-kit")
+def press_kit():
+    return render_template("press-kit.html")
+
+
+
     db = get_db()
     if category == "ALL":
         rows = db.execute(
