@@ -1851,43 +1851,43 @@ dialog {
     text-align: left;
   }
 
-    .vault-scroll-track {
-      margin-inline: 0;
-    }
-
-    .vault-viewport-stage {
-      min-height: 0;
-    }
-
-    .scene-3d {
-      grid-template-columns: minmax(0, 1fr);
-      gap: .75rem;
-      max-width: 480px;
-    }
-
-    .artifact-trigger {
-      min-height: 0;
+  .vault-scroll-track {
+    margin-inline: 0;
   }
 
-    .artifact-visual {
-      min-height: 110px;
-      margin-bottom: .8rem;
-    }
-
-    .artifact-svg {
-      width: 76px;
-      height: 98px;
+  .vault-viewport-stage {
+    min-height: 0;
   }
 
-    .spoon-visual .artifact-svg {
-      width: 38px;
-      height: 112px;
-    }
+  .scene-3d {
+    grid-template-columns: minmax(0, 1fr);
+    gap: .75rem;
+    max-width: 480px;
+  }
 
-    .ring-visual .artifact-svg {
-      width: 94px;
-      height: 94px;
-    }
+  .artifact-trigger {
+    min-height: 0;
+  }
+
+  .artifact-visual {
+    min-height: 110px;
+    margin-bottom: .8rem;
+  }
+
+  .artifact-svg {
+    width: 76px;
+    height: 98px;
+  }
+
+  .spoon-visual .artifact-svg {
+    width: 38px;
+    height: 112px;
+  }
+
+  .ring-visual .artifact-svg {
+    width: 94px;
+    height: 94px;
+  }
 
   .vault-footnote {
     flex-direction: column;
@@ -2087,8 +2087,17 @@ dialog {
 }
 
 @keyframes amber-pulse {
-  0%, 100% { opacity: .85; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
+
+  0%,
+  100% {
+    opacity: .85;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 
 .clinical-modal {
@@ -2176,11 +2185,18 @@ dialog {
   animation: waveform 1s ease-in-out infinite alternate;
 }
 
-.waveform-bar:nth-child(3n) { animation-delay: -.6s; }
-.waveform-bar:nth-child(3n + 1) { animation-delay: -.2s; }
+.waveform-bar:nth-child(3n) {
+  animation-delay: -.6s;
+}
+
+.waveform-bar:nth-child(3n + 1) {
+  animation-delay: -.2s;
+}
 
 @keyframes waveform {
-  to { height: 82%; }
+  to {
+    height: 82%;
+  }
 }
 
 .terminal-status {
@@ -2567,6 +2583,7 @@ a.press-download-link:hover {
 }
 
 @media (max-width: 900px) {
+
   .press-hero-grid,
   .dossier-columns {
     grid-template-columns: 1fr;
@@ -2582,6 +2599,7 @@ a.press-download-link:hover {
 }
 
 @media (max-width: 767px) {
+
   .press-hero-topline,
   .laurel-strip {
     align-items: flex-start;
