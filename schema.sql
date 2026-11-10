@@ -29,3 +29,44 @@ CREATE TABLE IF NOT EXISTS collaborators (
     message TEXT NOT NULL DEFAULT '',
     created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+CREATE TABLE IF NOT EXISTS gallery_assets (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    scene_name TEXT NOT NULL,
+    category TEXT NOT NULL CHECK (category IN ('clinic', 'memories', 'behind-the-scenes')),
+    image_path TEXT NOT NULL,
+    download_path TEXT NOT NULL,
+    aspect_ratio TEXT NOT NULL DEFAULT '2.39:1',
+    camera TEXT NOT NULL DEFAULT '',
+    lens TEXT NOT NULL DEFAULT '',
+    display_order INTEGER NOT NULL DEFAULT 0,
+    is_published INTEGER NOT NULL DEFAULT 0 CHECK (is_published IN (0, 1))
+);
+
+CREATE TABLE IF NOT EXISTS screenings (
+    event_id TEXT PRIMARY KEY,
+    city TEXT NOT NULL,
+    country TEXT NOT NULL DEFAULT 'UK',
+    name TEXT NOT NULL,
+    venue TEXT NOT NULL,
+    starts_at TEXT NOT NULL,
+    display_time TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS trailer_chapters (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    label TEXT NOT NULL,
+    time_seconds INTEGER NOT NULL CHECK (time_seconds >= 0),
+    display_order INTEGER NOT NULL DEFAULT 0
+);
+
+INSERT OR IGNORE INTO screenings
+    (event_id, city, country, name, venue, starts_at, display_time)
+VALUES
+    ('manchester-new-voices', 'Manchester', 'UK', 'Manchester New Voices',
+     'HOME, Manchester', '2026-11-14T18:30:00', '18:30'),
+    ('sci-fi-london', 'London', 'UK', 'Sci-Fi London',
+     'Bethnal Green, London', '2026-12-02T20:00:00', '20:00'),
+    ('edinburgh-short-film-night', 'Edinburgh', 'UK', 'Edinburgh Short Film Night',
+     'The Cameo, Edinburgh', '2027-01-20T19:00:00', '19:00');

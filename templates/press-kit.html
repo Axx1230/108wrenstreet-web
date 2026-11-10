@@ -1,6 +1,218 @@
 {% extends "base.html" %}
+{% block title %}Press &amp; Gallery — 108 Wren Street{% endblock %}
+{% block description %}Press kit, production stills, screening details, and production notes for 108 Wren Street.{% endblock %}
 {% block content %}
+<section class="press-hero section-shell" aria-labelledby="press-title">
+  <div class="press-hero-topline">
+    <p class="eyebrow">108 WREN STREET / PRESS &amp; MEDIA</p>
+    <span class="eyebrow">SHORT FILM / SCI-FI DRAMA</span>
+  </div>
+  <div class="press-hero-grid">
+    <div>
+      <p class="eyebrow accent-cyan">ELECTRONIC PRESS KIT / CASE FILE #143</p>
+      <h1 id="press-title">A story about<br><em>what survives.</em></h1>
+      <p class="press-logline">At Wren Street Memory Services, a client enters an irreversible extraction. As fragments of a life resist being erased, the line between letting go and losing yourself begins to blur.</p>
+      <div class="press-credits" aria-label="Film credits">
+        <div><span class="eyebrow">DIRECTOR</span><strong>Josh Oremule</strong></div>
+        <div><span class="eyebrow">FORMAT</span><strong>Short Film</strong></div>
+        <div><span class="eyebrow">GENRE</span><strong>Sci-Fi Drama</strong></div>
+        <div><span class="eyebrow">THEMES</span><strong>Memory / Love / Loss</strong></div>
+      </div>
+    </div>
+    <aside class="press-downloads panel" aria-label="Press downloads">
+      <p class="eyebrow">QUICK DOWNLOADS</p>
+      {% if press_kit_available %}
+        <a class="press-download-link" href="{{ url_for('static', filename='downloads/press-kit.zip') }}" download>
+          <span>COMPLETE PRESS KIT</span><span>ZIP ↓</span>
+        </a>
+      {% else %}
+        <span class="press-download-link is-unavailable" aria-disabled="true">
+          <span>COMPLETE PRESS KIT</span><span>ZIP / NOT AVAILABLE</span>
+        </span>
+      {% endif %}
+      {% if one_sheet_available %}
+        <a class="press-download-link" href="{{ url_for('static', filename='downloads/one-sheet.pdf') }}" download>
+          <span>ONE-SHEET</span><span>PDF ↓</span>
+        </a>
+      {% else %}
+        <span class="press-download-link is-unavailable" aria-disabled="true">
+          <span>ONE-SHEET</span><span>PDF / NOT AVAILABLE</span>
+        </span>
+      {% endif %}
+      <p class="download-note">APPROVED MEDIA FILES WILL APPEAR HERE WHEN AVAILABLE.</p>
+    </aside>
+  </div>
+  <div class="laurel-strip" aria-label="Festival selections">
+    <span class="eyebrow">FESTIVAL SELECTIONS &amp; LAURELS</span>
+    <span class="laurel-pending">OFFICIAL FESTIVAL ARTWORK PENDING</span>
+  </div>
+</section>
 
-<script>window.PAGE_SECTION = {{ page_section|tojson if page_section else 'null' }};</script>
+<section class="press-gallery section-shell" id="gallery" aria-labelledby="gallery-title">
+  <div class="section-heading">
+    <div><p class="eyebrow">01 / PRODUCTION STILLS</p><h2 id="gallery-title">Frames from<br><em>the fragments.</em></h2></div>
+    <span class="section-note">{% if stills %}HIGH-RESOLUTION<br>APPROVED MEDIA{% else %}TEMPORARY<br>CONCEPT IMAGES{% endif %}</span>
+  </div>
+  <div class="gallery-filters" role="group" aria-label="Filter production stills">
+    <button class="filter-pill is-active" type="button" data-gallery-filter="all" aria-pressed="true">ALL STILLS</button>
+    <button class="filter-pill" type="button" data-gallery-filter="clinic" aria-pressed="false">THE CLINIC</button>
+    <button class="filter-pill" type="button" data-gallery-filter="memories" aria-pressed="false">THE MEMORIES</button>
+    <button class="filter-pill" type="button" data-gallery-filter="behind-the-scenes" aria-pressed="false">BEHIND THE SCENES / GEAR</button>
+  </div>
+  {% if stills %}
+    <div class="still-grid" id="still-grid">
+      {% for still in stills %}
+        <article class="still-card" data-still-category="{{ still.category }}">
+          <button class="still-trigger" type="button" data-still-index="{{ loop.index0 }}" data-scene-name="{{ still.scene_name }}" data-category="{{ still.category }}" data-aspect-ratio="{{ still.aspect_ratio }}" data-camera="{{ still.camera }}" data-lens="{{ still.lens }}" data-download-url="{{ still.download_url }}" aria-label="View {{ still.scene_name }} still">
+            <img src="{{ still.image_url }}" alt="{{ still.title }}" loading="lazy" style="aspect-ratio: {{ still.aspect_ratio_css }};">
+            <span class="still-caption"><span>{{ still.scene_name }}</span><span>{{ still.aspect_ratio }}</span></span>
+          </button>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="gallery-placeholder-note">
+      <span class="eyebrow accent-cyan">TEMPORARY PLACEHOLDERS / NOT OFFICIAL FILM STILLS</span>
+      <p>These concept images keep the gallery layout in place until approved production stills are added to the press archive.</p>
+    </div>
+    <div class="still-grid" id="still-grid">
+      <article class="still-card" data-still-category="clinic">
+        <figure class="placeholder-still">
+          <img src="{{ url_for('static', filename='images/temp-clinic.svg') }}" alt="Temporary concept illustration of a quiet, cyan-lit clinic corridor." loading="lazy" style="aspect-ratio: 2.39 / 1;">
+          <figcaption class="still-caption"><span>THE CLINIC / CONCEPT</span><span>TEMPORARY</span></figcaption>
+        </figure>
+      </article>
+      <article class="still-card" data-still-category="memories">
+        <figure class="placeholder-still">
+          <img src="{{ url_for('static', filename='images/temp-memory.svg') }}" alt="Temporary concept illustration of a warm sunset and an old oak tree." loading="lazy" style="aspect-ratio: 2.39 / 1;">
+          <figcaption class="still-caption"><span>THE MEMORIES / CONCEPT</span><span>TEMPORARY</span></figcaption>
+        </figure>
+      </article>
+      <article class="still-card" data-still-category="behind-the-scenes">
+        <figure class="placeholder-still">
+          <img src="{{ url_for('static', filename='images/temp-production.svg') }}" alt="Temporary concept illustration of a cinema camera on a dim set." loading="lazy" style="aspect-ratio: 2.39 / 1;">
+          <figcaption class="still-caption"><span>BEHIND THE SCENES / CONCEPT</span><span>TEMPORARY</span></figcaption>
+        </figure>
+      </article>
+    </div>
+  {% endif %}
+</section>
 
+<section class="press-dossier section-shell" id="dossier" aria-labelledby="dossier-title">
+  <div class="section-heading">
+    <div><p class="eyebrow">02 / ELECTRONIC PRESS KIT</p><h2 id="dossier-title">Inside the<br><em>memory service.</em></h2></div>
+    <span class="section-note">CASE FILE #143<br>PRODUCTION DOSSIER</span>
+  </div>
+  <div class="dossier-columns">
+    <article class="press-synopsis">
+      <p class="eyebrow">FULL SYNOPSIS</p>
+      <p>At 108 Wren Street, memories can be removed. A client arrives at the Memory Services clinic ready to surrender the moments that keep pulling him back. But the fragments are bound to more than pain: a shared joke, a small confession, a promise made beneath an oak tree. As the extraction moves between the controlled present and the warmth of recollection, the procedure asks whether a life can be edited without changing the person who lived it.</p>
+      <blockquote>“If you could edit the pain out of your past, would you still recognise the person left behind?”<cite>JOSH OREMULE / DIRECTOR’S STATEMENT</cite></blockquote>
+    </article>
+    <div class="production">
+      <p class="eyebrow">PRODUCTION NOTES</p>
+      <div class="accordion-list">
+        <details class="production-item"><summary><span>01</span> CAMERA <span class="production-spec">ARRI ALEXA MINI / VINTAGE ANAMORPHIC</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Intimate, tactile images shaped by available light and vintage anamorphic glass. The camera stays close to the details memory leaves behind.</p></div></div></details>
+        <details class="production-item"><summary><span>02</span> SOUND DESIGN <span class="production-spec">AMBISONICS / SUBJECTIVE SPACE</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Spatial sound places room tone, breath and recurring details around the listener, shifting between clinical precision and the distortion of recollection.</p></div></div></details>
+        <details class="production-item"><summary><span>03</span> EDITING <span class="production-spec">NOAH LEWIS / MEMORY RHYTHM</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Fragments overlap and return with changed meaning, letting the emotional edit follow the logic of remembering.</p></div></div></details>
+        <details class="production-item"><summary><span>04</span> COLOUR <span class="production-spec">AMBER / CLINICAL CYAN</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Warm amber tones anchor the remembered world; clinical cyan frames the precise, cool present of the memory service.</p></div></div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="press-video section-shell" aria-labelledby="trailer-title">
+  <div class="section-heading">
+    <div><p class="eyebrow">03 / OFFICIAL TRAILER</p><h2 id="trailer-title">Enter the<br><em>session.</em></h2></div>
+    <span class="section-note">TRAILER &amp; VIDEO STILLS</span>
+  </div>
+  {% if trailer_available %}
+    <video class="press-trailer" controls preload="metadata" aria-label="Official 108 Wren Street trailer">
+      <source src="{{ url_for('static', filename='videos/official-trailer.mp4') }}" type="video/mp4">
+      Your browser does not support video playback.
+    </video>
+    {% if trailer_chapters %}
+      <div class="trailer-chapters" role="group" aria-label="Trailer chapter markers">
+        {% for chapter in trailer_chapters %}
+          <button class="trailer-chapter" type="button" data-trailer-time="{{ chapter.time_seconds }}">{{ chapter.timecode }} / {{ chapter.label }}</button>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="trailer-chapters-pending">Chapter markers will be added to the media archive.</p>
+    {% endif %}
+    <p class="trailer-chapter-status" id="trailer-chapter-status" role="status" aria-live="polite"></p>
+  {% else %}
+    <div class="trailer-unavailable">
+      <span class="eyebrow accent-cyan">TRAILER / NOT AVAILABLE</span>
+      <p>The official trailer and its chapter markers will be published here when the approved video file is ready.</p>
+    </div>
+  {% endif %}
+</section>
+
+<section class="press-screenings section-shell" id="screenings" aria-labelledby="screenings-title">
+  <div class="section-heading">
+    <div><p class="eyebrow">04 / FESTIVAL &amp; COMMUNITY</p><h2 id="screenings-title">Meet us<br><em>in the room.</em></h2></div>
+    <span class="section-note">SCREENINGS<br>AND TICKETS</span>
+  </div>
+  <div class="screenings">
+    <div class="screenings-heading"><p class="eyebrow">UPCOMING SCREENINGS</p><span class="eyebrow">108 WREN STREET</span></div>
+    {% for screening in screenings %}
+      <article class="screening-card">
+        <div>
+          <span class="eyebrow">{{ screening.city|upper }} / {{ screening.country|upper }}</span>
+          <h3>{{ screening.name }}</h3>
+          <p>{{ screening.venue }} · {{ screening.display_time }}</p>
+        </div>
+        <button class="text-button rsvp-trigger" type="button" data-event-id="{{ screening.event_id }}" data-event-name="{{ screening.name }}" data-location="{{ screening.venue }}" data-date="{{ screening.starts_at }}">RSVP / TICKETS <span aria-hidden="true">→</span></button>
+      </article>
+    {% else %}
+      <p class="gallery-empty">Screening details will be announced here.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="press-credits section-shell" id="credits" aria-labelledby="credits-title">
+  <div class="section-heading">
+    <div><p class="eyebrow">05 / HEADS OF DEPARTMENT</p><h2 id="credits-title">The people<br><em>behind the frame.</em></h2></div>
+    <span class="section-note">CREW &amp; CREDITS</span>
+  </div>
+  <div class="crew-grid press-crew-grid">
+    <article class="crew-card"><span class="crew-initial" aria-hidden="true">JO</span><h3>Josh Oremule</h3><p>Director</p><span class="crew-bio">Guides the film’s central story of memory, grief and identity.</span></article>
+    <article class="crew-card"><span class="crew-initial" aria-hidden="true">NL</span><h3>Noah Lewis</h3><p>Editor</p><span class="crew-bio">Shapes the film’s interwoven fragments and shifting memory rhythm.</span></article>
+    <article class="crew-card"><span class="crew-initial" aria-hidden="true">SK</span><h3>Sana Khan</h3><p>Sound Designer</p><span class="crew-bio">Builds the spatial soundscape between the clinic and remembered worlds.</span></article>
+  </div>
+  <p class="headshots-note">APPROVED CREW HEADSHOTS WILL BE ADDED TO THIS DOSSIER WHEN AVAILABLE.</p>
+</section>
+
+{% if stills %}
+<dialog class="still-lightbox" id="still-lightbox" aria-labelledby="lightbox-scene">
+  <button class="lightbox-close" type="button" aria-label="Close still viewer">×</button>
+  <button class="lightbox-step lightbox-previous" type="button" aria-label="Previous still">←</button>
+  <figure>
+    <img id="lightbox-image" alt="">
+    <figcaption>
+      <span class="eyebrow" id="lightbox-category"></span>
+      <h2 id="lightbox-scene"></h2>
+      <p id="lightbox-metadata"></p>
+      <a class="button button-primary" id="lightbox-download" href="#" download>DOWNLOAD HIGH-RES <span aria-hidden="true">↓</span></a>
+    </figcaption>
+  </figure>
+  <button class="lightbox-step lightbox-next" type="button" aria-label="Next still">→</button>
+</dialog>
+{% endif %}
+
+<dialog class="memory-dialog rsvp-dialog" id="rsvp-dialog" aria-labelledby="rsvp-title">
+  <form method="dialog"><button class="dialog-close" aria-label="Close RSVP">×</button></form>
+  <p class="eyebrow">SCREENING RSVP / 108 WREN STREET</p><h2 id="rsvp-title">Save your<br><em>seat.</em></h2>
+  <p class="rsvp-event-details" id="rsvp-event-details"></p>
+  <form id="rsvp-form" class="dialog-form">
+    <input type="hidden" name="event_id" id="rsvp-event-id">
+    <label>FULL NAME<input name="name" autocomplete="name" required maxlength="100"></label>
+    <label>EMAIL ADDRESS<input type="email" name="email" autocomplete="email" required maxlength="254"></label>
+    <label>SEATS<select name="seats"><option value="1">1 SEAT</option><option value="2">2 SEATS</option><option value="3">3 SEATS</option><option value="4">4 SEATS</option><option value="5">5 SEATS</option><option value="6">6 SEATS</option></select></label>
+    <button class="button button-primary" type="submit">CONFIRM RSVP <span aria-hidden="true">→</span></button>
+    <button class="text-button calendar-button" type="button" disabled>ADD TO CALENDAR (.ICS) ↓</button>
+    <p class="form-feedback" id="rsvp-feedback" role="status" aria-live="polite"></p>
+  </form>
+</dialog>
 {% endblock %}

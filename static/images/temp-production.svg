@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 502" role="img">
+  <defs>
+    <linearGradient id="room" x2="0" y2="1">
+      <stop stop-color="#25232a"/>
+      <stop offset="1" stop-color="#090b0e"/>
+    </linearGradient>
+    <radialGradient id="lamp">
+      <stop stop-color="#f6bd72" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#f6bd72" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="502" fill="url(#room)"/>
+  <ellipse cx="872" cy="158" rx="350" ry="260" fill="url(#lamp)"/>
+  <path d="M0 393h1200v109H0z" fill="#080a0d"/>
+  <path d="M126 92h15v294h-15zm932-32h15v326h-15z" fill="#11171c"/>
+  <path d="M87 90h96v16H87zm863-30h109v16H950z" fill="#38bdf8" opacity=".22"/>
+  <path d="M594 271h302l49 38H548z" fill="#141b20" stroke="#59616a" stroke-width="4"/>
+  <path d="M654 190h189v95H654z" rx="10" fill="#11171c" stroke="#94a3b8" stroke-width="5"/>
+  <circle cx="748" cy="237" r="34" fill="#080b0e" stroke="#38bdf8" stroke-width="7"/>
+  <circle cx="748" cy="237" r="17" fill="#1c3540"/>
+  <path d="M693 184l24-42h64l25 42m-133 104-50 56m235-56 49 56" fill="none" stroke="#66717b" stroke-width="8" stroke-linecap="round"/>
+  <path d="M587 348h325m-270-39-22 39m214-39 22 39" stroke="#38bdf8" stroke-opacity=".24" stroke-width="3"/>
+  <path d="M83 436h1034" stroke="#f6bd72" stroke-opacity=".18" stroke-width="2"/>
+</svg>

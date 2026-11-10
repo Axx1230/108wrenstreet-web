@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" fill="none">
+  <defs>
+    <radialGradient id="memory-glow">
+      <stop stop-color="#f59e0b" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="clinic-glow">
+      <stop stop-color="#38bdf8" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#38bdf8" stop-opacity=".09"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="1230" cy="290" rx="520" ry="430" fill="url(#memory-glow)"/>
+  <ellipse cx="300" cy="760" rx="560" ry="500" fill="url(#clinic-glow)"/>
+  <path d="M1050 0h430v600l-430-126z" fill="url(#glass)"/>
+  <path d="M1130 0v502m176-502v553m176-553v602M1050 180h550m-550 180h550" stroke="#8bd8f6" stroke-opacity=".09"/>
+  <path d="M1265 730c-18-124 13-232 85-324-63 25-122 17-179-23 89 6 153-25 192-93 8 74 52 122 131 145-79 13-124 65-135 155-8 66 8 113 47 140z" fill="#d8ae72" fill-opacity=".08"/>
+  <path d="M1370 487c-91-77-163-87-217-32 84-9 141 23 173 96m72-137c38-89 95-134 173-137-55 38-83 87-84 148m-206 88c-93-17-157 5-192 67 72-29 132-20 180 25" stroke="#e9c38b" stroke-opacity=".11" stroke-width="8" stroke-linecap="round"/>
+  <path d="M0 858h1600M0 875h1600" stroke="#d7e8ee" stroke-opacity=".035"/>
+  <circle cx="118" cy="176" r="2" fill="#38bdf8" fill-opacity=".3"/>
+  <circle cx="1450" cy="810" r="2" fill="#f59e0b" fill-opacity=".28"/>
+</svg>

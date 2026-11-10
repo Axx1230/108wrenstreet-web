@@ -3,7 +3,7 @@ import re
 import sqlite3
 from pathlib import Path
 
-from flask import Flask, g, jsonify, render_template, request
+from flask import Flask, g, jsonify, redirect, render_template, request, url_for
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -32,6 +32,81 @@ def initialize_database():
     DATABASE.parent.mkdir(parents=True, exist_ok=True)
     with sqlite3.connect(DATABASE) as db:
         db.executescript(SCHEMA.read_text(encoding="utf-8"))
+        memory_schema = db.execute(
+            "SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'memories'"
+        ).fetchone()
+        if memory_schema and "'FAMILY'" not in memory_schema[0].upper():
+            db.execute("BEGIN")
+            db.execute(
+                "CREATE TABLE memories_migrated ("
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                "body TEXT NOT NULL CHECK (length(body) BETWEEN 1 AND 280), "
+                "author TEXT NOT NULL DEFAULT 'Anonymous', "
+                "category TEXT NOT NULL DEFAULT 'MEMORY' "
+                "CHECK (category IN ('LOVE', 'LOSS', 'MEMORY', 'PEOPLE', 'FAMILY')), "
+                "created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+                ")"
+            )
+            db.execute(
+                "INSERT INTO memories_migrated (id, body, author, category, created_at) "
+                "SELECT id, body, author, category, created_at FROM memories"
+            )
+            db.execute("DROP TABLE memories")
+            db.execute("ALTER TABLE memories_migrated RENAME TO memories")
+            db.execute(
+                "CREATE INDEX memories_category_created_at "
+                "ON memories (category, created_at DESC)"
+            )
+
+
+def get_gallery_assets():
+    rows = get_db().execute(
+        "SELECT id, title, scene_name, category, image_path, download_path, "
+        "aspect_ratio, camera, lens FROM gallery_assets "
+        "WHERE is_published = 1 ORDER BY display_order, id"
+    ).fetchall()
+    static_root = (BASE_DIR / "static").resolve()
+    assets = []
+    for row in rows:
+        image_path = Path(row["image_path"])
+        download_path = Path(row["download_path"])
+        if image_path.is_absolute() or download_path.is_absolute() or ".." in image_path.parts or ".." in download_path.parts:
+            raise ValueError(f"Gallery asset {row['id']} contains an invalid file path.")
+        image_file = (static_root / image_path).resolve()
+        download_file = (static_root / download_path).resolve()
+        if not image_file.is_relative_to(static_root) or not download_file.is_relative_to(static_root):
+            raise ValueError(f"Gallery asset {row['id']} points outside the static directory.")
+        if not image_file.is_file() or not download_file.is_file():
+            raise FileNotFoundError(f"Gallery asset {row['id']} references a missing media file.")
+        if not re.fullmatch(r"\d{1,2}(?:\.\d{1,2})?:\d{1,2}(?:\.\d{1,2})?", row["aspect_ratio"]):
+            raise ValueError(f"Gallery asset {row['id']} has an invalid aspect ratio.")
+        asset = dict(row)
+        asset["aspect_ratio_css"] = row["aspect_ratio"].replace(":", " / ")
+        asset["image_url"] = url_for("static", filename=image_path.as_posix())
+        asset["download_url"] = url_for("static", filename=download_path.as_posix())
+        assets.append(asset)
+    return assets
+
+
+def get_screenings():
+    rows = get_db().execute(
+        "SELECT event_id, city, country, name, venue, starts_at, display_time "
+        "FROM screenings ORDER BY starts_at"
+    ).fetchall()
+    return [dict(row) for row in rows]
+
+
+def get_trailer_chapters():
+    rows = get_db().execute(
+        "SELECT label, time_seconds FROM trailer_chapters ORDER BY display_order, id"
+    ).fetchall()
+    chapters = []
+    for row in rows:
+        minutes, seconds = divmod(row["time_seconds"], 60)
+        chapter = dict(row)
+        chapter["timecode"] = f"{minutes:02d}:{seconds:02d}"
+        chapters.append(chapter)
+    return chapters
 
 
 def json_payload(required_fields):
@@ -56,7 +131,7 @@ def oak_tree():
 
 @app.get("/epk")
 def epk():
-    return render_template("index.html", page_section="epk")
+    return redirect("/press#screenings", code=302)
 
 
 @app.get("/collaborate")
@@ -86,9 +161,21 @@ def get_memories():
     return jsonify(memories=[dict(row) for row in rows])
 
 
+@app.get("/press")
 @app.get("/press-kit")
 def press_kit():
-    return render_template("press-kit.html")
+    downloads_dir = BASE_DIR / "static" / "downloads"
+    trailer_file = BASE_DIR / "static" / "videos" / "official-trailer.mp4"
+    return render_template(
+        "press-kit.html",
+        stills=get_gallery_assets(),
+        screenings=get_screenings(),
+        trailer_chapters=get_trailer_chapters(),
+        press_kit_available=(downloads_dir / "press-kit.zip").is_file(),
+        one_sheet_available=(downloads_dir / "one-sheet.pdf").is_file(),
+        trailer_available=trailer_file.is_file(),
+        is_press_page=True,
+    )
 
 
 @app.get("/api/memories/count")

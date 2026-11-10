@@ -11,7 +11,7 @@
   </div>
   <div class="intake-layout">
     <div class="intake-copy">
-      <p class="eyebrow accent-cyan">PRIVATE MEMORY EXTRACTION / SESSION 01</p>
+      <p class="eyebrow accent-cyan">PRIVATE <span class="memory-secret-zone"><span id="secret-memory-trigger">MEMORY</span></span> EXTRACTION / SESSION 01</p>
       <h1 id="intake-title">The past is<br><em>still in there.</em></h1>
       <p class="lede">Some memories ask to be kept. Others insist on being found. Your session is ready when you are.</p>
       <div class="telemetry" aria-label="Session telemetry">
@@ -61,28 +61,62 @@
     <div><p class="eyebrow">01 / CASE RECONSTRUCTION</p><h2 id="vault-title">Forget the past.<br><em>Remember now.</em></h2></div>
     <p class="section-note">THREE OBJECTS LOGGED<br>FRAGILITY: HIGH</p>
   </div>
-  <div class="vault-stage">
-    <article class="artifact-card">
-      <button class="artifact-trigger artifact-novel" type="button" data-artifact="novel" aria-haspopup="dialog">
-        <span class="artifact-number">01 / OBJECT</span><span class="artifact-illustration" aria-hidden="true"><span class="book-shape"></span></span>
-        <span class="artifact-title">The Little Lie</span><span class="artifact-caption">A collection of selected poems</span>
-        <span class="artifact-open">OPEN MEMORY <span aria-hidden="true">↗</span></span>
-      </button>
-    </article>
-    <article class="artifact-card">
-      <button class="artifact-trigger artifact-teaspoon" type="button" data-artifact="teaspoon" aria-haspopup="dialog">
-        <span class="artifact-number">02 / OBJECT</span><span class="artifact-illustration" aria-hidden="true"><span class="spoon-shape"></span></span>
-        <span class="artifact-title">The Confession</span><span class="artifact-caption">A diner / the first date</span>
-        <span class="artifact-open">OPEN MEMORY <span aria-hidden="true">↗</span></span>
-      </button>
-    </article>
-    <article class="artifact-card">
-      <button class="artifact-trigger artifact-ring" type="button" data-artifact="ring" aria-haspopup="dialog">
-        <span class="artifact-number">03 / OBJECT</span><span class="artifact-illustration" aria-hidden="true"><span class="ring-shape"></span></span>
-        <span class="artifact-title">Total Belonging</span><span class="artifact-caption">A promise beneath the oak</span>
-        <span class="artifact-open">OPEN MEMORY <span aria-hidden="true">↗</span></span>
-      </button>
-    </article>
+  <div class="vault-scroll-track" aria-label="Memory Vault interactive archive">
+    <div class="vault-viewport-stage">
+      <div class="ambient-radial-glow" aria-hidden="true"></div>
+      <div class="scene-3d">
+        <article class="vault-artifact-card" data-index="1" aria-labelledby="art-1-title">
+          <button class="artifact-trigger artifact-novel" type="button" data-artifact="novel" aria-haspopup="dialog" aria-labelledby="art-1-title art-1-quote">
+            <span class="artifact-visual book-cover" aria-hidden="true">
+              <svg class="artifact-svg" viewBox="0 0 100 120">
+                <rect x="2" y="2" width="96" height="116" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+                <text x="50" y="62" text-anchor="middle" fill="#f8fafc" font-size="9">SELECTED POEMS</text>
+              </svg>
+            </span>
+            <span class="artifact-content">
+              <span class="artifact-tag">CASE FILE // ARTIFACT 01</span>
+              <span class="artifact-title" id="art-1-title">The Little Lie</span>
+              <span class="artifact-quote" id="art-1-quote">“You pretended to read it just to sit with me, didn’t you?”</span>
+              <span class="artifact-caption">A collection of selected poems</span>
+              <span class="artifact-open">OPEN MEMORY <span aria-hidden="true">↗</span></span>
+            </span>
+          </button>
+        </article>
+        <article class="vault-artifact-card" data-index="2" aria-labelledby="art-2-title">
+          <button class="artifact-trigger artifact-teaspoon" type="button" data-artifact="teaspoon" aria-haspopup="dialog" aria-labelledby="art-2-title art-2-quote">
+            <span class="artifact-visual spoon-visual" aria-hidden="true">
+              <svg class="artifact-svg" viewBox="0 0 40 140">
+                <ellipse cx="20" cy="30" rx="15" ry="25" fill="#64748b" stroke="#f59e0b" stroke-width="2"/>
+                <rect x="18" y="55" width="4" height="80" rx="2" fill="#94a3b8"/>
+              </svg>
+            </span>
+            <span class="artifact-content">
+              <span class="artifact-tag">CASE FILE // ARTIFACT 02</span>
+              <span class="artifact-title" id="art-2-title">The Confession</span>
+              <span class="artifact-quote" id="art-2-quote">“Diner booth 4. The sugar remained untouched. The truth didn’t.”</span>
+              <span class="artifact-caption">A diner / the first date</span>
+              <span class="artifact-open">OPEN MEMORY <span aria-hidden="true">↗</span></span>
+            </span>
+          </button>
+        </article>
+        <article class="vault-artifact-card" data-index="3" aria-labelledby="art-3-title">
+          <button class="artifact-trigger artifact-ring" type="button" data-artifact="ring" aria-haspopup="dialog" aria-labelledby="art-3-title art-3-quote">
+            <span class="artifact-visual ring-visual" aria-hidden="true">
+              <svg class="artifact-svg" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="35" fill="none" stroke="#f59e0b" stroke-width="6"/>
+              </svg>
+            </span>
+            <span class="artifact-content">
+              <span class="artifact-tag">CASE FILE // ARTIFACT 03</span>
+              <span class="artifact-title" id="art-3-title">Total Belonging</span>
+              <span class="artifact-quote" id="art-3-quote">“Beneath the gnarled oak. What remains when memory is stripped away?”</span>
+              <span class="artifact-caption">A promise beneath the oak</span>
+              <span class="artifact-open">OPEN MEMORY <span aria-hidden="true">↗</span></span>
+            </span>
+          </button>
+        </article>
+      </div>
+    </div>
   </div>
   <div class="vault-footnote"><span>SELECT AN OBJECT TO BEGIN RECONSTRUCTION</span><span>MEMORY INTEGRITY / 68.4%</span></div>
 </section>
@@ -133,31 +167,6 @@
         <p class="empty-state">Gathering the memories…</p>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="press section-shell" id="epk" aria-labelledby="press-title">
-  <div class="section-heading"><div><p class="eyebrow">04 / ELECTRONIC PRESS KIT</p><h2 id="press-title">A story about<br><em>what survives.</em></h2></div><span class="section-note">108 WREN STREET<br>SHORT FILM / 2025</span></div>
-  <div class="press-layout">
-    <div class="press-copy">
-      <dl class="film-facts">
-        <div><dt>DIRECTOR</dt><dd>Josh Oremule</dd></div><div><dt>FORMAT</dt><dd>Short Film</dd></div><div><dt>GENRE</dt><dd>Sci-Fi Drama</dd></div><div><dt>THEMES</dt><dd>Memory / Love / Loss</dd></div>
-      </dl>
-      <blockquote>“If you could edit the pain out of your past, would you still recognise the person left behind?”<cite>JOSH OREMULE / DIRECTOR’S STATEMENT</cite></blockquote>
-    </div>
-    <div class="press-downloads panel"><p class="eyebrow">PRESS MATERIALS</p>
-      <div class="download-row" aria-disabled="true">PRESS KIT <span>PDF / ASSET NOT ATTACHED</span></div>
-      <div class="download-row" aria-disabled="true">OFFICIAL POSTER <span>IMAGE / ASSET NOT ATTACHED</span></div>
-      <div class="download-row" aria-disabled="true">PRODUCTION STILLS <span>ARCHIVE / ASSET NOT ATTACHED</span></div>
-      <p class="download-note">DOWNLOADS WILL BE ENABLED WHEN APPROVED PRESS ASSETS ARE ADDED.</p>
-    </div>
-  </div>
-  <div class="screenings">
-    <div class="screenings-heading"><p class="eyebrow">UPCOMING SCREENINGS</p><span class="eyebrow">2025 — 2026</span></div>
-    <article class="screening-card"><div><span class="eyebrow">MANCHESTER / UK</span><h3>Manchester New Voices</h3><p>HOME, Manchester · 18:30</p></div><button class="text-button rsvp-trigger" type="button" data-event-id="manchester-new-voices" data-event-name="Manchester New Voices" data-location="HOME, Manchester" data-date="2026-11-14T18:30:00">RSVP / TICKETS <span aria-hidden="true">→</span></button></article>
-    <article class="screening-card"><div><span class="eyebrow">LONDON / UK</span><h3>Sci-Fi London</h3><p>Bethnal Green, London · 20:00</p></div><button class="text-button rsvp-trigger" type="button" data-event-id="sci-fi-london" data-event-name="Sci-Fi London" data-location="Bethnal Green, London" data-date="2026-12-02T20:00:00">RSVP / TICKETS <span aria-hidden="true">→</span></button></article>
-  <!-- ADDED: new screening -->
-<article class="screening-card"><div><span class="eyebrow">EDINBURGH / UK</span><h3>Edinburgh Short Film Night</h3><p>The Cameo, Edinburgh · 19:00</p></div><button class="text-button rsvp-trigger" type="button" data-event-id="edinburgh-short-film-night" data-event-name="Edinburgh Short Film Night" data-location="The Cameo, Edinburgh" data-date="2027-01-20T19:00:00">RSVP / TICKETS <span aria-hidden="true">→</span></button></article>
   </div>
 </section>
 
@@ -219,5 +228,20 @@
     <button class="text-button calendar-button" type="button" disabled>ADD TO CALENDAR (.ICS) ↓</button>
     <p class="form-feedback" id="rsvp-feedback" role="status" aria-live="polite"></p>
   </form>
+</dialog>
+
+<dialog id="secret-memory-modal" class="clinical-modal" aria-labelledby="secret-memory-title">
+  <div class="modal-terminal-box">
+    <div class="terminal-header">
+      <span class="terminal-title" id="secret-memory-title">TERMINAL OVERRIDE // CLASSIFIED AUDIO INTERCEPT</span>
+      <button type="button" class="modal-close-btn" id="close-secret-modal" aria-label="Close dialog">×</button>
+    </div>
+    <div class="terminal-body">
+      <p class="glitch-text">&gt;&gt;&gt; DECRYPTING FILE: 108_WREN_RECOVERY_04.WAV</p>
+      <p class="classified-quote">“He still says her name when the monitors drop below thirty hertz. The machine isn't erasing her. It's just hiding where he buried her.”</p>
+      <div class="waveform-box" aria-hidden="true"><span class="waveform-bar"></span><span class="waveform-bar"></span><span class="waveform-bar"></span><span class="waveform-bar"></span><span class="waveform-bar"></span><span class="waveform-bar"></span><span class="waveform-bar"></span><span class="waveform-bar"></span><span class="waveform-bar"></span><span class="waveform-bar"></span><span class="waveform-bar"></span><span class="waveform-bar"></span></div>
+      <p class="terminal-status">[EXTRACTION FAILURE: RESTRICTED ARCHIVE LOGGED]</p>
+    </div>
+  </div>
 </dialog>
 {% endblock %}

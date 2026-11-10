@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0A0B0D">
-  <meta name="description" content="108 Wren Street — an interactive psychological sci-fi film experience.">
+  <meta name="description" content="{% block description %}108 Wren Street — an interactive psychological sci-fi film experience.{% endblock %}">
   <title>{% block title %}108 Wren Street — Memory Services{% endblock %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,18 +12,18 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   {% block head %}{% endblock %}
 </head>
-<body data-page-section="{{ page_section or '' }}">
+<body data-page-section="{{ page_section or '' }}" data-page-type="{{ 'press' if is_press_page|default(false) else 'story' }}">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header">
     <a class="wordmark" href="/" aria-label="108 Wren Street home">108 <span>WREN STREET</span></a>
     <nav class="site-nav" aria-label="Main navigation">
-      <a href="#intake">Intake</a>
-      <a href="#memory-vault">Memory vault</a>
-      <a href="#oak-tree">Oak tree</a>
-      <a href="#epk">Screenings</a>
-      <a href="#collaborate">Collaborate</a>
-      <a href="#credits">Credits</a>
-      <a href="/press-kit">Press kit</a>
+      <a data-nav-key="intake" href="{{ '/#intake' if is_press_page|default(false) else '#intake' }}">Intake</a>
+      <a data-nav-key="memory-vault" href="{{ '/#memory-vault' if is_press_page|default(false) else '#memory-vault' }}">Memory vault</a>
+      <a data-nav-key="oak-tree" href="{{ '/#oak-tree' if is_press_page|default(false) else '#oak-tree' }}">Oak tree</a>
+      <a data-nav-key="screenings" href="/press#screenings">Screenings</a>
+      <a data-nav-key="collaborate" href="{{ '/#collaborate' if is_press_page|default(false) else '#collaborate' }}">Collaborate</a>
+      <a data-nav-key="credits" href="/press#credits">Credits</a>
+      <a data-nav-key="press-kit" href="/press">Press kit</a>
     </nav>
     <span class="header-status"><span class="status-dot"></span> SYSTEM ONLINE</span>
   </header>
@@ -33,8 +33,11 @@
   <footer class="site-footer">
     <a class="wordmark" href="/">108 <span>WREN STREET</span></a>
     <span>MEMORY SERVICES // CASE FILE #143</span>
-    <a href="#intake">Return to beginning ↑</a>
+    <a href="{{ '/#intake' if is_press_page|default(false) else '#intake' }}">Return to beginning ↑</a>
   </footer>
+  {% if not is_press_page|default(false) %}
+  <script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js" defer></script>
+  {% endif %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>

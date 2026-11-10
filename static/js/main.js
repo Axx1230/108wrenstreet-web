@@ -3,20 +3,98 @@
 
   const $ = (selector, scope = document) => scope.querySelector(selector);
   const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let revealObserver = null;
+  let revealScrollY = window.scrollY;
+  let revealDirection = "down";
+
+  if ("IntersectionObserver" in window && !reducedMotion.matches) {
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const enteringOffset = revealDirection === "down" ? 24 : -24;
+        const leavingOffset = revealDirection === "down" ? -24 : 24;
+        entry.target.style.setProperty(
+          "--reveal-offset",
+          `${entry.isIntersecting ? enteringOffset : leavingOffset}px`
+        );
+        entry.target.dataset.revealed = String(entry.isIntersecting);
+      });
+    }, { threshold: 0, rootMargin: "0px 0px -8% 0px" });
+  }
+
+  window.addEventListener("scroll", () => {
+    const currentScrollY = window.scrollY;
+    if (currentScrollY !== revealScrollY) {
+      revealDirection = currentScrollY > revealScrollY ? "down" : "up";
+      revealScrollY = currentScrollY;
+    }
+  }, { passive: true });
+
+  function observeScrollReveal(elements) {
+    if (!revealObserver) return;
+    elements.forEach((element, index) => {
+      element.dataset.scrollReveal = "";
+      element.style.setProperty("--reveal-delay", `${Math.min(index, 4) * 90}ms`);
+      revealObserver.observe(element);
+    });
+  }
+
+  observeScrollReveal($$(
+    ".section-shell > *:not(.vault-scroll-track):not(.memory-flight):not(.screenings):not(.crew-grid):not(.accordion-list), " +
+    ".memory-flight > *, .screenings > *, .crew-grid > *, .accordion-list > *"
+  ));
+  reducedMotion.addEventListener?.("change", (event) => {
+    if (!event.matches) return;
+    revealObserver?.disconnect();
+    $$("[data-scroll-reveal]").forEach((element) => {
+      element.dataset.revealed = "true";
+    });
+  });
 
   const navLinks = $$(".site-nav a");
+  const navTargets = (document.body.dataset.pageType === "press"
+    ? [
+      ["press-kit", ".press-hero"],
+      ["press-kit", "#gallery"],
+      ["press-kit", "#dossier"],
+      ["press-kit", ".press-video"],
+      ["screenings", "#screenings"],
+      ["credits", "#credits"],
+    ]
+    : [
+      ["intake", "#intake"],
+      ["memory-vault", "#memory-vault"],
+      ["oak-tree", "#oak-tree"],
+      ["collaborate", "#collaborate"],
+    ])
+    .map(([key, selector]) => ({ key, element: $(selector) }))
+    .filter((target) => target.element);
+  let navUpdateScheduled = false;
   const updateCurrentNavLink = () => {
-    const section = window.location.hash.slice(1) || document.body.dataset.pageSection;
+    navUpdateScheduled = false;
+    const threshold = ($(".site-header")?.getBoundingClientRect().bottom || 0) +
+      Math.min(120, window.innerHeight * .22);
+    let currentKey = navTargets[0]?.key;
+    navTargets.forEach(({ key, element }) => {
+      if (element.getBoundingClientRect().top <= threshold) currentKey = key;
+    });
     navLinks.forEach((link) => {
-      if (link.hash.slice(1) === section) {
+      if (link.dataset.navKey === currentKey) {
         link.setAttribute("aria-current", "location");
       } else {
         link.removeAttribute("aria-current");
       }
     });
   };
+  const scheduleNavUpdate = () => {
+    if (navUpdateScheduled) return;
+    navUpdateScheduled = true;
+    window.requestAnimationFrame(updateCurrentNavLink);
+  };
   updateCurrentNavLink();
-  window.addEventListener("hashchange", updateCurrentNavLink);
+  window.addEventListener("scroll", scheduleNavUpdate, { passive: true });
+  window.addEventListener("resize", scheduleNavUpdate);
+  window.addEventListener("hashchange", scheduleNavUpdate);
 
   async function requestJSON(url, options = {}) {
     const headers = { ...(options.headers || {}) };
@@ -28,6 +106,305 @@
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || "The request could not be completed.");
     return data;
+  }
+
+  const vault = $("#memory-vault");
+  const vaultCards = $$(".vault-artifact-card", vault || document);
+  const vaultStage = $(".vault-viewport-stage", vault || document);
+  const gsap = window.gsap;
+  const ScrollTrigger = window.ScrollTrigger;
+  const intake = $("#intake");
+  if (intake && gsap && ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    const cameraMotion = gsap.matchMedia();
+    cameraMotion.add("(prefers-reduced-motion: no-preference)", () => {
+      const scene = $(".appointment-scene", intake);
+      if (!scene) return;
+      gsap.to(scene, {
+        scale: 1.16,
+        y: -36,
+        ease: "none",
+        scrollTrigger: {
+          trigger: intake,
+          start: "top top",
+          end: "bottom top",
+          scrub: .7,
+          invalidateOnRefresh: true,
+        },
+      });
+    });
+  }
+
+  if (vault && vaultCards.length && vaultStage && gsap && ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    const vaultMedia = gsap.matchMedia();
+    vaultMedia.add(
+      "(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+      () => {
+        const glow = $(".ambient-radial-glow", vault);
+        const lenis = typeof window.Lenis === "function"
+          ? new window.Lenis({
+            autoRaf: false,
+            duration: 1.2,
+            easing: (time) => Math.min(1, 1.001 - Math.pow(2, -10 * time)),
+            smoothWheel: true,
+          })
+          : null;
+        const syncLenis = lenis ? (time) => lenis.raf(time * 1000) : null;
+        if (lenis && syncLenis) {
+          lenis.on("scroll", ScrollTrigger.update);
+          gsap.ticker.add(syncLenis);
+        }
+        const setCardAccessible = (card, active) => {
+          if (!active && card.contains(document.activeElement)) return;
+          card.inert = !active;
+          card.setAttribute("aria-hidden", String(!active));
+        };
+        const syncCardAccess = () => {
+          const nextVisibleCard = vaultCards.reduce((mostVisible, card) => (
+            gsap.getProperty(card, "opacity") > gsap.getProperty(mostVisible, "opacity")
+              ? card
+              : mostVisible
+          ), vaultCards[0]);
+          const nextOpacity = Number(gsap.getProperty(nextVisibleCard, "opacity"));
+          const visibleCard = nextOpacity > .05 ? nextVisibleCard : null;
+          vaultCards.forEach((card) => setCardAccessible(card, card === visibleCard));
+        };
+        vault.classList.add("is-3d");
+        vaultCards.forEach((card, index) => {
+          setCardAccessible(card, index === 0);
+          card.addEventListener("focusout", syncCardAccess);
+          gsap.set(card, {
+            xPercent: -50,
+            yPercent: -50,
+            z: index === 0 ? 0 : -index * 1450,
+            opacity: index === 0 ? 1 : 0,
+            filter: index === 0 ? "blur(0px)" : "blur(16px)",
+          });
+        });
+
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: $(".vault-scroll-track", vault),
+            start: "top top+=72",
+            end: "bottom bottom",
+            pin: vaultStage,
+            scrub: .8,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onUpdate: syncCardAccess,
+          },
+        });
+
+        vaultCards.forEach((card, index) => {
+          const start = index * 2.4;
+          timeline
+            .to(card, {
+              z: 0,
+              opacity: 1,
+              filter: "blur(0px)",
+              duration: 1.8,
+              ease: "none",
+            }, start)
+            .to(card, {
+              z: 450,
+              opacity: 0,
+              filter: "blur(20px)",
+              duration: 1.2,
+              ease: "none",
+            }, start + 1.8);
+        });
+
+        if (glow) {
+          timeline
+            .to(glow, {
+              background: "radial-gradient(circle at center, rgba(245, 158, 11, .22), transparent 70%)",
+              duration: 3,
+              ease: "none",
+            }, 0)
+            .to(glow, {
+              background: "radial-gradient(circle at center, rgba(15, 23, 42, .3), transparent 60%)",
+              duration: 3,
+              ease: "none",
+            }, 3.5);
+        }
+
+        return () => {
+          if (lenis && syncLenis) {
+            gsap.ticker.remove(syncLenis);
+            lenis.destroy();
+          }
+          vault.classList.remove("is-3d");
+          vaultCards.forEach((card) => {
+            card.removeEventListener("focusout", syncCardAccess);
+            card.inert = false;
+            card.removeAttribute("aria-hidden");
+          });
+        };
+      },
+    );
+  }
+
+  const memorySecretZone = $(".memory-secret-zone");
+  const memorySecretTrigger = $("#secret-memory-trigger");
+  const memorySecretModal = $("#secret-memory-modal");
+  const memorySecretClose = $("#close-secret-modal");
+  if (memorySecretZone && memorySecretTrigger && memorySecretModal && typeof memorySecretModal.showModal === "function") {
+    let memorySecretStage = 0;
+    memorySecretTrigger.classList.add("easter-egg-word");
+    memorySecretTrigger.setAttribute("tabindex", "0");
+    memorySecretTrigger.setAttribute("role", "button");
+    memorySecretTrigger.setAttribute("aria-haspopup", "dialog");
+    memorySecretTrigger.setAttribute("aria-expanded", "false");
+    memorySecretTrigger.setAttribute("aria-label", "Classified node: memory");
+    memorySecretTrigger.setAttribute("aria-description", "Press Enter or Space to unlock this classified node, then press again to open it.");
+
+    const unlockMemorySecret = () => {
+      memorySecretStage = 3;
+      memorySecretTrigger.classList.remove("has-disappeared");
+      memorySecretTrigger.classList.add("is-unlocked");
+    };
+    const openMemorySecret = () => {
+      memorySecretModal.showModal();
+      memorySecretTrigger.setAttribute("aria-expanded", "true");
+    };
+
+    memorySecretZone.addEventListener("mouseenter", () => {
+      if (memorySecretStage === 0) {
+        memorySecretStage = 1;
+        memorySecretTrigger.classList.add("has-disappeared");
+      } else if (memorySecretStage === 2) {
+        unlockMemorySecret();
+      }
+    });
+    memorySecretZone.addEventListener("mouseleave", () => {
+      if (memorySecretStage === 1) memorySecretStage = 2;
+    });
+    memorySecretZone.addEventListener("click", () => {
+      if (memorySecretStage === 3) openMemorySecret();
+      else unlockMemorySecret();
+    });
+    memorySecretTrigger.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      if (memorySecretStage === 3) openMemorySecret();
+      else unlockMemorySecret();
+    });
+    memorySecretModal.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      memorySecretModal.close();
+    });
+    memorySecretClose?.addEventListener("click", () => memorySecretModal.close());
+    memorySecretModal.addEventListener("close", () => {
+      memorySecretTrigger.setAttribute("aria-expanded", "false");
+    });
+    memorySecretModal.addEventListener("click", (event) => {
+      if (event.target === memorySecretModal) memorySecretModal.close();
+    });
+  }
+
+  const stillCards = $$(".still-card");
+  const stillDialog = $("#still-lightbox");
+  $$("[data-gallery-filter]").forEach((filter) => {
+    filter.addEventListener("click", () => {
+      $$("[data-gallery-filter]").forEach((item) => {
+        const selected = item === filter;
+        item.classList.toggle("is-active", selected);
+        item.setAttribute("aria-pressed", String(selected));
+      });
+      stillCards.forEach((card) => {
+        card.hidden = filter.dataset.galleryFilter !== "all" &&
+          card.dataset.stillCategory !== filter.dataset.galleryFilter;
+      });
+    });
+  });
+
+  if (stillCards.length && stillDialog && typeof stillDialog.showModal === "function") {
+    const stillButtons = $$(".still-trigger", stillDialog.ownerDocument);
+    const stillImage = $("#lightbox-image", stillDialog);
+    const stillScene = $("#lightbox-scene", stillDialog);
+    const stillCategory = $("#lightbox-category", stillDialog);
+    const stillMetadata = $("#lightbox-metadata", stillDialog);
+    const stillDownload = $("#lightbox-download", stillDialog);
+    const categoryNames = {
+      clinic: "THE CLINIC",
+      memories: "THE MEMORIES",
+      "behind-the-scenes": "BEHIND THE SCENES / GEAR",
+    };
+    let currentStill = 0;
+
+    const visibleStills = () => stillButtons.filter((button) => !button.closest(".still-card").hidden);
+    const showStill = (button) => {
+      const thumbnail = $("img", button);
+      currentStill = visibleStills().indexOf(button);
+      stillImage.src = thumbnail.src;
+      stillImage.alt = thumbnail.alt;
+      stillScene.textContent = button.dataset.sceneName;
+      stillCategory.textContent = categoryNames[button.dataset.category] || "PRODUCTION STILL";
+      stillMetadata.textContent = [
+        button.dataset.aspectRatio,
+        button.dataset.camera,
+        button.dataset.lens,
+      ].filter(Boolean).join(" / ");
+      stillDownload.href = button.dataset.downloadUrl;
+      stillDownload.download = button.dataset.downloadUrl.split("/").pop();
+    };
+    const stepStill = (direction) => {
+      const visible = visibleStills();
+      if (!visible.length) return;
+      currentStill = (currentStill + direction + visible.length) % visible.length;
+      showStill(visible[currentStill]);
+    };
+
+    stillButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        showStill(button);
+        stillDialog.showModal();
+      });
+    });
+    $(".lightbox-close", stillDialog)?.addEventListener("click", () => stillDialog.close());
+    $(".lightbox-previous", stillDialog)?.addEventListener("click", () => stepStill(-1));
+    $(".lightbox-next", stillDialog)?.addEventListener("click", () => stepStill(1));
+    stillDialog.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        stillDialog.close();
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        stepStill(-1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        stepStill(1);
+      }
+    });
+    stillDialog.addEventListener("click", (event) => {
+      if (event.target === stillDialog) stillDialog.close();
+    });
+  }
+
+  const trailerVideo = $(".press-trailer");
+  if (trailerVideo) {
+    const chapterStatus = $("#trailer-chapter-status");
+    $$(".trailer-chapter").forEach((button) => {
+      button.addEventListener("click", () => {
+        const time = Number(button.dataset.trailerTime);
+        if (!Number.isFinite(time) || time < 0) {
+          chapterStatus.textContent = "This chapter marker has an invalid time.";
+          return;
+        }
+        if (!Number.isFinite(trailerVideo.duration)) {
+          chapterStatus.textContent = "Wait for the trailer to load before choosing a chapter.";
+          return;
+        }
+        if (time > trailerVideo.duration) {
+          chapterStatus.textContent = "This chapter marker is outside the trailer duration.";
+          return;
+        }
+        trailerVideo.currentTime = time;
+        chapterStatus.textContent = `Playback position set to ${button.textContent.trim()}.`;
+      });
+    });
   }
 
   const card = $(".appointment-card");
@@ -154,6 +531,7 @@
       article.append(quote, footer);
       memoryFeed.append(article);
     });
+    observeScrollReveal($$(".memory-card", memoryFeed));
   }
 
   async function loadMemories(category = activeFilter) {
@@ -188,9 +566,9 @@
 
   if (memoryFeed) loadMemories();
 
-  $$(".filter-pill").forEach((button) => {
+  $$(".memory-wall .filter-pill").forEach((button) => {
     button.addEventListener("click", () => {
-      $$(".filter-pill").forEach((pill) => {
+      $$(".memory-wall .filter-pill").forEach((pill) => {
         const selected = pill === button;
         pill.classList.toggle("is-active", selected);
         pill.setAttribute("aria-pressed", String(selected));
@@ -320,6 +698,11 @@
   rsvpDialog?.addEventListener("click", (event) => {
     if (event.target === rsvpDialog) rsvpDialog.close();
   });
+  rsvpDialog?.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    event.preventDefault();
+    rsvpDialog.close();
+  });
   $("#rsvp-form")?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -443,7 +826,6 @@
 
   const flight = $(".reconstruction");
   const desktopMotion = window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine)");
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let scrollTriggerInstance;
   function setupFlight() {
     scrollTriggerInstance?.kill(true);
@@ -491,7 +873,7 @@
   const initialSection = document.body.dataset.pageSection || null;
   if (initialSection) {
     window.addEventListener("load", () => {
-      document.getElementById(initialSection)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.getElementById(initialSection)?.scrollIntoView({ behavior: "instant", block: "start" });
     }, { once: true });
   }
 })();
