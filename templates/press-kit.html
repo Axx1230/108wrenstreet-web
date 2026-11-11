@@ -2,25 +2,53 @@
 {% block title %}Press &amp; Gallery — 108 Wren Street{% endblock %}
 {% block description %}Press kit, production stills, screening details, and production notes for 108 Wren Street.{% endblock %}
 {% block content %}
-<section class="press-hero section-shell" aria-labelledby="press-title">
-  <div class="press-hero-topline">
-    <p class="eyebrow">108 WREN STREET / PRESS &amp; MEDIA</p>
-    <span class="eyebrow">SHORT FILM / SCI-FI DRAMA</span>
+{% set archive_url = "" %}
+{% set archive_ready = archive_url and archive_url.startswith("https://") %}
+
+<section class="press-hero pk-hero section-shell" aria-labelledby="press-title">
+  <div class="pk-topline">
+    <p class="eyebrow pk-live"><span class="status-dot" aria-hidden="true"></span>108 WREN STREET / PRESS &amp; MEDIA</p>
+    <p class="eyebrow pk-topline-center">CASE FILE #143 / CLEARANCE: PUBLIC</p>
+    <p class="eyebrow pk-topline-end">SHORT FILM / SCI-FI DRAMA</p>
   </div>
-  <div class="press-hero-grid">
-    <div>
-      <p class="eyebrow accent-cyan">ELECTRONIC PRESS KIT / CASE FILE #143</p>
+
+  <div class="pk-hero-grid">
+    <div class="pk-hero-copy">
+      <p class="eyebrow accent-cyan">ELECTRONIC PRESS KIT</p>
       <h1 id="press-title">A story about<br><em>what survives.</em></h1>
       <p class="press-logline">At Wren Street Memory Services, a client enters an irreversible extraction. As fragments of a life resist being erased, the line between letting go and losing yourself begins to blur.</p>
-      <div class="press-credits" aria-label="Film credits">
-        <div><span class="eyebrow">DIRECTOR</span><strong>Josh Oremule</strong></div>
-        <div><span class="eyebrow">FORMAT</span><strong>Short Film</strong></div>
-        <div><span class="eyebrow">GENRE</span><strong>Sci-Fi Drama</strong></div>
-        <div><span class="eyebrow">THEMES</span><strong>Memory / Love / Loss</strong></div>
-      </div>
+      <dl class="pk-credits" aria-label="Film credits">
+        <div><dt>DIRECTOR</dt><dd>Josh Oremule</dd></div>
+        <div><dt>FORMAT</dt><dd>Short Film</dd></div>
+        <div><dt>GENRE</dt><dd>Sci-Fi Drama</dd></div>
+        <div><dt>THEMES</dt><dd>Memory / Love / Loss</dd></div>
+      </dl>
     </div>
-    <aside class="press-downloads panel" aria-label="Press downloads">
-      <p class="eyebrow">QUICK DOWNLOADS</p>
+
+    <aside class="pk-access panel" aria-labelledby="access-title">
+      <div class="pk-access-head">
+        <p class="eyebrow" id="access-title">MEDIA ACCESS</p>
+        <span class="pk-chip">{% if archive_ready %}ARCHIVE ONLINE{% else %}ARCHIVE PENDING{% endif %}</span>
+      </div>
+
+      {% if archive_ready %}
+        <a class="pk-archive-cta" href="{{ archive_url }}" target="_blank" rel="noopener noreferrer">
+          <span class="pk-archive-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7M8.5 9.5h3"/></svg>
+          </span>
+          <span class="pk-archive-text"><strong>Open press archive</strong><small>GOOGLE DOC / ALL FILES &amp; DOWNLOADS</small></span>
+          <span class="pk-archive-arrow" aria-hidden="true">↗</span>
+          <span class="pk-sr-only">(opens in a new tab)</span>
+        </a>
+      {% else %}
+        <span class="pk-archive-cta is-pending" aria-disabled="true">
+          <span class="pk-archive-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5"/></svg>
+          </span>
+          <span class="pk-archive-text"><strong>Press archive</strong><small>GOOGLE DOC / COMING SOON</small></span>
+        </span>
+      {% endif %}
+
       {% if press_kit_available %}
         <a class="press-download-link" href="{{ url_for('static', filename='downloads/press-kit.zip') }}" download>
           <span>COMPLETE PRESS KIT</span><span>ZIP ↓</span>
@@ -42,13 +70,23 @@
       <p class="download-note">APPROVED MEDIA FILES WILL APPEAR HERE WHEN AVAILABLE.</p>
     </aside>
   </div>
+
+  <nav class="pk-index" aria-label="Press kit sections">
+    <a href="#gallery"><span>01</span>Stills</a>
+    <a href="#dossier"><span>02</span>Dossier</a>
+    <a href="#trailer"><span>03</span>Trailer</a>
+    <a href="#screenings"><span>04</span>Screenings</a>
+    <a href="#credits"><span>05</span>Crew</a>
+    <a href="#archive"><span>06</span>Archive</a>
+  </nav>
+
   <div class="laurel-strip" aria-label="Festival selections">
     <span class="eyebrow">FESTIVAL SELECTIONS &amp; LAURELS</span>
     <span class="laurel-pending">OFFICIAL FESTIVAL ARTWORK PENDING</span>
   </div>
 </section>
 
-<section class="press-gallery section-shell" id="gallery" aria-labelledby="gallery-title">
+<section class="press-gallery pk-gallery section-shell" id="gallery" aria-labelledby="gallery-title">
   <div class="section-heading">
     <div><p class="eyebrow">01 / PRODUCTION STILLS</p><h2 id="gallery-title">Frames from<br><em>the fragments.</em></h2></div>
     <span class="section-note">{% if stills %}HIGH-RESOLUTION<br>APPROVED MEDIA{% else %}TEMPORARY<br>CONCEPT IMAGES{% endif %}</span>
@@ -64,8 +102,11 @@
       {% for still in stills %}
         <article class="still-card" data-still-category="{{ still.category }}">
           <button class="still-trigger" type="button" data-still-index="{{ loop.index0 }}" data-scene-name="{{ still.scene_name }}" data-category="{{ still.category }}" data-aspect-ratio="{{ still.aspect_ratio }}" data-camera="{{ still.camera }}" data-lens="{{ still.lens }}" data-download-url="{{ still.download_url }}" aria-label="View {{ still.scene_name }} still">
-            <img src="{{ still.image_url }}" alt="{{ still.title }}" loading="lazy" style="aspect-ratio: {{ still.aspect_ratio_css }};">
-            <span class="still-caption"><span>{{ still.scene_name }}</span><span>{{ still.aspect_ratio }}</span></span>
+            <span class="pk-still-frame">
+            <img src="{{ still.image_url }}" alt="{{ still.title }}" loading="lazy" style="--still-ratio: {{ still.aspect_ratio_css }}">
+              <span class="pk-still-hover" aria-hidden="true">VIEW STILL ↗</span>
+            </span>
+            <span class="still-caption"><span><span class="pk-still-num">{{ "%02d"|format(loop.index) }}</span> {{ still.scene_name }}</span><span>{{ still.aspect_ratio }}</span></span>
           </button>
         </article>
       {% endfor %}
@@ -78,38 +119,38 @@
     <div class="still-grid" id="still-grid">
       <article class="still-card" data-still-category="clinic">
         <figure class="placeholder-still">
-          <img src="{{ url_for('static', filename='images/temp-clinic.svg') }}" alt="Temporary concept illustration of a quiet, cyan-lit clinic corridor." loading="lazy" style="aspect-ratio: 2.39 / 1;">
-          <figcaption class="still-caption"><span>THE CLINIC / CONCEPT</span><span>TEMPORARY</span></figcaption>
+          <span class="pk-still-frame"><img src="{{ url_for('static', filename='images/temp-clinic.svg') }}" alt="Temporary concept illustration of a quiet, cyan-lit clinic corridor." loading="lazy" style="aspect-ratio: 2.39 / 1;"></span>
+          <figcaption class="still-caption"><span><span class="pk-still-num">01</span> THE CLINIC / CONCEPT</span><span>TEMPORARY</span></figcaption>
         </figure>
       </article>
       <article class="still-card" data-still-category="memories">
         <figure class="placeholder-still">
-          <img src="{{ url_for('static', filename='images/temp-memory.svg') }}" alt="Temporary concept illustration of a warm sunset and an old oak tree." loading="lazy" style="aspect-ratio: 2.39 / 1;">
-          <figcaption class="still-caption"><span>THE MEMORIES / CONCEPT</span><span>TEMPORARY</span></figcaption>
+          <span class="pk-still-frame"><img src="{{ url_for('static', filename='images/temp-memory.svg') }}" alt="Temporary concept illustration of a warm sunset and an old oak tree." loading="lazy" style="aspect-ratio: 2.39 / 1;"></span>
+          <figcaption class="still-caption"><span><span class="pk-still-num">02</span> THE MEMORIES / CONCEPT</span><span>TEMPORARY</span></figcaption>
         </figure>
       </article>
       <article class="still-card" data-still-category="behind-the-scenes">
         <figure class="placeholder-still">
-          <img src="{{ url_for('static', filename='images/temp-production.svg') }}" alt="Temporary concept illustration of a cinema camera on a dim set." loading="lazy" style="aspect-ratio: 2.39 / 1;">
-          <figcaption class="still-caption"><span>BEHIND THE SCENES / CONCEPT</span><span>TEMPORARY</span></figcaption>
+          <span class="pk-still-frame"><img src="{{ url_for('static', filename='images/temp-production.svg') }}" alt="Temporary concept illustration of a cinema camera on a dim set." loading="lazy" style="aspect-ratio: 2.39 / 1;"></span>
+          <figcaption class="still-caption"><span><span class="pk-still-num">03</span> BEHIND THE SCENES / CONCEPT</span><span>TEMPORARY</span></figcaption>
         </figure>
       </article>
     </div>
   {% endif %}
 </section>
 
-<section class="press-dossier section-shell" id="dossier" aria-labelledby="dossier-title">
+<section class="press-dossier pk-dossier section-shell" id="dossier" aria-labelledby="dossier-title">
   <div class="section-heading">
     <div><p class="eyebrow">02 / ELECTRONIC PRESS KIT</p><h2 id="dossier-title">Inside the<br><em>memory service.</em></h2></div>
     <span class="section-note">CASE FILE #143<br>PRODUCTION DOSSIER</span>
   </div>
   <div class="dossier-columns">
-    <article class="press-synopsis">
+    <article class="press-synopsis pk-synopsis">
       <p class="eyebrow">FULL SYNOPSIS</p>
-      <p>At 108 Wren Street, memories can be removed. A client arrives at the Memory Services clinic ready to surrender the moments that keep pulling him back. But the fragments are bound to more than pain: a shared joke, a small confession, a promise made beneath an oak tree. As the extraction moves between the controlled present and the warmth of recollection, the procedure asks whether a life can be edited without changing the person who lived it.</p>
+      <p class="pk-lead">At 108 Wren Street, memories can be removed. A client arrives at the Memory Services clinic ready to surrender the moments that keep pulling him back. But the fragments are bound to more than pain: a shared joke, a small confession, a promise made beneath an oak tree. As the extraction moves between the controlled present and the warmth of recollection, the procedure asks whether a life can be edited without changing the person who lived it.</p>
       <blockquote>“If you could edit the pain out of your past, would you still recognise the person left behind?”<cite>JOSH OREMULE / DIRECTOR’S STATEMENT</cite></blockquote>
     </article>
-    <div class="production">
+    <div class="production pk-production">
       <p class="eyebrow">PRODUCTION NOTES</p>
       <div class="accordion-list">
         <details class="production-item"><summary><span>01</span> CAMERA <span class="production-spec">ARRI ALEXA MINI / VINTAGE ANAMORPHIC</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Intimate, tactile images shaped by available light and vintage anamorphic glass. The camera stays close to the details memory leaves behind.</p></div></div></details>
@@ -121,16 +162,30 @@
   </div>
 </section>
 
-<section class="press-video section-shell" aria-labelledby="trailer-title">
+<section class="press-video pk-video section-shell" id="trailer" aria-labelledby="trailer-title">
   <div class="section-heading">
     <div><p class="eyebrow">03 / OFFICIAL TRAILER</p><h2 id="trailer-title">Enter the<br><em>session.</em></h2></div>
     <span class="section-note">TRAILER &amp; VIDEO STILLS</span>
   </div>
+  <div class="pk-screen">
+    <div class="pk-screen-bar" aria-hidden="true">
+      <span><span class="pk-rec"></span>SESSION PLAYBACK</span>
+      <span>CASE FILE #143 / 2.39:1</span>
+    </div>
+    {% if trailer_available %}
+      <video class="press-trailer" controls preload="metadata" aria-label="Official 108 Wren Street trailer">
+        <source src="{{ url_for('static', filename='videos/official-trailer.mp4') }}" type="video/mp4">
+        Your browser does not support video playback.
+      </video>
+    {% else %}
+      <div class="trailer-unavailable pk-trailer-empty">
+        <span class="pk-play" aria-hidden="true">▶</span>
+        <span class="eyebrow accent-cyan">TRAILER / NOT AVAILABLE</span>
+        <p>The official trailer and its chapter markers will be published here when the approved video file is ready.</p>
+      </div>
+    {% endif %}
+  </div>
   {% if trailer_available %}
-    <video class="press-trailer" controls preload="metadata" aria-label="Official 108 Wren Street trailer">
-      <source src="{{ url_for('static', filename='videos/official-trailer.mp4') }}" type="video/mp4">
-      Your browser does not support video playback.
-    </video>
     {% if trailer_chapters %}
       <div class="trailer-chapters" role="group" aria-label="Trailer chapter markers">
         {% for chapter in trailer_chapters %}
@@ -141,15 +196,10 @@
       <p class="trailer-chapters-pending">Chapter markers will be added to the media archive.</p>
     {% endif %}
     <p class="trailer-chapter-status" id="trailer-chapter-status" role="status" aria-live="polite"></p>
-  {% else %}
-    <div class="trailer-unavailable">
-      <span class="eyebrow accent-cyan">TRAILER / NOT AVAILABLE</span>
-      <p>The official trailer and its chapter markers will be published here when the approved video file is ready.</p>
-    </div>
   {% endif %}
 </section>
 
-<section class="press-screenings section-shell" id="screenings" aria-labelledby="screenings-title">
+<section class="press-screenings pk-screenings section-shell" id="screenings" aria-labelledby="screenings-title">
   <div class="section-heading">
     <div><p class="eyebrow">04 / FESTIVAL &amp; COMMUNITY</p><h2 id="screenings-title">Meet us<br><em>in the room.</em></h2></div>
     <span class="section-note">SCREENINGS<br>AND TICKETS</span>
@@ -157,8 +207,9 @@
   <div class="screenings">
     <div class="screenings-heading"><p class="eyebrow">UPCOMING SCREENINGS</p><span class="eyebrow">108 WREN STREET</span></div>
     {% for screening in screenings %}
-      <article class="screening-card">
-        <div>
+      <article class="screening-card pk-ticket">
+        <span class="pk-ticket-num" aria-hidden="true">{{ "%02d"|format(loop.index) }}</span>
+        <div class="pk-ticket-body">
           <span class="eyebrow">{{ screening.city|upper }} / {{ screening.country|upper }}</span>
           <h3>{{ screening.name }}</h3>
           <p>{{ screening.venue }} · {{ screening.display_time }}</p>
@@ -171,7 +222,7 @@
   </div>
 </section>
 
-<section class="press-credits section-shell" id="credits" aria-labelledby="credits-title">
+<section class="pk-crew section-shell" id="credits" aria-labelledby="credits-title">
   <div class="section-heading">
     <div><p class="eyebrow">05 / HEADS OF DEPARTMENT</p><h2 id="credits-title">The people<br><em>behind the frame.</em></h2></div>
     <span class="section-note">CREW &amp; CREDITS</span>
@@ -182,6 +233,44 @@
     <article class="crew-card"><span class="crew-initial" aria-hidden="true">SK</span><h3>Sana Khan</h3><p>Sound Designer</p><span class="crew-bio">Builds the spatial soundscape between the clinic and remembered worlds.</span></article>
   </div>
   <p class="headshots-note">APPROVED CREW HEADSHOTS WILL BE ADDED TO THIS DOSSIER WHEN AVAILABLE.</p>
+</section>
+
+<section class="pk-archive section-shell" id="archive" aria-labelledby="archive-title">
+  <div class="section-heading">
+    <div><p class="eyebrow">06 / PRESS ARCHIVE</p><h2 id="archive-title">Every file,<br><em>one link.</em></h2></div>
+    <span class="section-note">GOOGLE DOC<br>VIEW-ONLY ACCESS</span>
+  </div>
+  <div class="pk-archive-card">
+    <div class="pk-archive-info">
+      <p class="lede">The full press archive lives in one shared document: stills, posters, the trailer, the one-sheet and the EPK, each with its own download link.</p>
+      <ol class="pk-steps">
+        <li><span>01</span><div><strong>Open the archive</strong><p>The Google Doc opens in a new tab. No sign-in is needed.</p></div></li>
+        <li><span>02</span><div><strong>Choose an asset</strong><p>Files are grouped by type: stills, artwork, video and documents.</p></div></li>
+        <li><span>03</span><div><strong>Download</strong><p>Follow the link next to each file to download the original.</p></div></li>
+      </ol>
+    </div>
+    <div class="pk-archive-action">
+      {% if archive_ready %}
+        <a class="pk-archive-cta pk-archive-big" href="{{ archive_url }}" target="_blank" rel="noopener noreferrer">
+          <span class="pk-archive-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7M8.5 9.5h3"/></svg>
+          </span>
+          <span class="pk-archive-text"><strong>Open press archive</strong><small>GOOGLE DOC / ALL FILES</small></span>
+          <span class="pk-archive-arrow" aria-hidden="true">↗</span>
+          <span class="pk-sr-only">(opens in a new tab)</span>
+        </a>
+        <p class="pk-archive-meta">LINK / DOCS.GOOGLE.COM<br>ACCESS / ANYONE WITH THE LINK</p>
+      {% else %}
+        <span class="pk-archive-cta pk-archive-big is-pending" aria-disabled="true">
+          <span class="pk-archive-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5"/></svg>
+          </span>
+          <span class="pk-archive-text"><strong>Press archive</strong><small>COMING SOON</small></span>
+        </span>
+        <p class="pk-archive-meta">THE SHARED ARCHIVE LINK WILL BE<br>PUBLISHED HERE WHEN READY.</p>
+      {% endif %}
+    </div>
+  </div>
 </section>
 
 {% if stills %}
