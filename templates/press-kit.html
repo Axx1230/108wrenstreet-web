@@ -89,7 +89,7 @@
 <section class="press-gallery pk-gallery section-shell" id="gallery" aria-labelledby="gallery-title">
   <div class="section-heading">
     <div><p class="eyebrow">01 / PRODUCTION STILLS</p><h2 id="gallery-title">Frames from<br><em>the fragments.</em></h2></div>
-    <span class="section-note">{% if stills %}HIGH-RESOLUTION<br>APPROVED MEDIA{% else %}TEMPORARY<br>CONCEPT IMAGES{% endif %}</span>
+    <span class="section-note">{% if stills %}HIGH-RESOLUTION<br>APPROVED MEDIA{% else %}PREVIEW<br>STILLS{% endif %}</span>
   </div>
   <div class="gallery-filters" role="group" aria-label="Filter production stills">
     <button class="filter-pill is-active" type="button" data-gallery-filter="all" aria-pressed="true">ALL STILLS</button>
@@ -103,7 +103,7 @@
         <article class="still-card" data-still-category="{{ still.category }}">
           <button class="still-trigger" type="button" data-still-index="{{ loop.index0 }}" data-scene-name="{{ still.scene_name }}" data-category="{{ still.category }}" data-aspect-ratio="{{ still.aspect_ratio }}" data-camera="{{ still.camera }}" data-lens="{{ still.lens }}" data-download-url="{{ still.download_url }}" aria-label="View {{ still.scene_name }} still">
             <span class="pk-still-frame">
-            <img src="{{ still.image_url }}" alt="{{ still.title }}" loading="lazy" style="--still-ratio: {{ still.aspect_ratio_css }}">
+              <img src="{{ still.image_url }}" alt="{{ still.title }}" loading="lazy" style="--still-ratio: {{ still.aspect_ratio_css }}">
               <span class="pk-still-hover" aria-hidden="true">VIEW STILL ↗</span>
             </span>
             <span class="still-caption"><span><span class="pk-still-num">{{ "%02d"|format(loop.index) }}</span> {{ still.scene_name }}</span><span>{{ still.aspect_ratio }}</span></span>
@@ -113,26 +113,32 @@
     </div>
   {% else %}
     <div class="gallery-placeholder-note">
-      <span class="eyebrow accent-cyan">TEMPORARY PLACEHOLDERS / NOT OFFICIAL FILM STILLS</span>
-      <p>These concept images keep the gallery layout in place until approved production stills are added to the press archive.</p>
+      <span class="eyebrow accent-cyan">PREVIEW STILLS / HIGH-RES FILES COMING SOON</span>
+      <p>Preview frames from the film. Approved high-resolution stills will be added to the press archive.</p>
     </div>
     <div class="still-grid" id="still-grid">
       <article class="still-card" data-still-category="clinic">
         <figure class="placeholder-still">
-          <span class="pk-still-frame"><img src="{{ url_for('static', filename='images/temp-clinic.svg') }}" alt="Temporary concept illustration of a quiet, cyan-lit clinic corridor." loading="lazy" style="aspect-ratio: 2.39 / 1;"></span>
-          <figcaption class="still-caption"><span><span class="pk-still-num">01</span> THE CLINIC / CONCEPT</span><span>TEMPORARY</span></figcaption>
+          <span class="pk-still-frame"><img src="{{ url_for('static', filename='_press_validation/clinic-one.png') }}" alt="Still from 108 Wren Street: the Memory Services clinic." loading="lazy" style="aspect-ratio: 2.39 / 1;"></span>
+          <figcaption class="still-caption"><span><span class="pk-still-num">01</span> THE CLINIC</span><span>PREVIEW</span></figcaption>
         </figure>
       </article>
       <article class="still-card" data-still-category="memories">
         <figure class="placeholder-still">
-          <span class="pk-still-frame"><img src="{{ url_for('static', filename='images/temp-memory.svg') }}" alt="Temporary concept illustration of a warm sunset and an old oak tree." loading="lazy" style="aspect-ratio: 2.39 / 1;"></span>
-          <figcaption class="still-caption"><span><span class="pk-still-num">02</span> THE MEMORIES / CONCEPT</span><span>TEMPORARY</span></figcaption>
+          <span class="pk-still-frame"><img src="{{ url_for('static', filename='_press_validation/memory-one.png') }}" alt="Still from 108 Wren Street: a remembered moment." loading="lazy" style="aspect-ratio: 2.39 / 1;"></span>
+          <figcaption class="still-caption"><span><span class="pk-still-num">02</span> THE MEMORIES / I</span><span>PREVIEW</span></figcaption>
+        </figure>
+      </article>
+      <article class="still-card" data-still-category="memories">
+        <figure class="placeholder-still">
+          <span class="pk-still-frame"><img src="{{ url_for('static', filename='_press_validation/memory-two.png') }}" alt="Still from 108 Wren Street: a second remembered moment." loading="lazy" style="aspect-ratio: 2.39 / 1;"></span>
+          <figcaption class="still-caption"><span><span class="pk-still-num">03</span> THE MEMORIES / II</span><span>PREVIEW</span></figcaption>
         </figure>
       </article>
       <article class="still-card" data-still-category="behind-the-scenes">
         <figure class="placeholder-still">
           <span class="pk-still-frame"><img src="{{ url_for('static', filename='images/temp-production.svg') }}" alt="Temporary concept illustration of a cinema camera on a dim set." loading="lazy" style="aspect-ratio: 2.39 / 1;"></span>
-          <figcaption class="still-caption"><span><span class="pk-still-num">03</span> BEHIND THE SCENES / CONCEPT</span><span>TEMPORARY</span></figcaption>
+          <figcaption class="still-caption"><span><span class="pk-still-num">04</span> BEHIND THE SCENES / CONCEPT</span><span>TEMPORARY</span></figcaption>
         </figure>
       </article>
     </div>
