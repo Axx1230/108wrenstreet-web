@@ -1647,29 +1647,14 @@ dialog {
   }
 
   .reconstruction.is-pinned .flight-card {
-    will-change: transform, opacity;
-  }
-
-  .reconstruction.is-pinned .flight-card {
     position: absolute;
     top: 50%;
     left: 50%;
+    box-sizing: border-box;
     width: min(90%, 390px);
-  }
-
-  .reconstruction.is-pinned .flight-card:nth-child(1) {
-    z-index: 3;
-    transform: translate(-50%, -50%) translateZ(90px) translateX(-60px) rotateY(7deg);
-  }
-
-  .reconstruction.is-pinned .flight-card:nth-child(2) {
-    z-index: 2;
-    transform: translate(-50%, -50%) translateZ(-40px) translateX(45px) translateY(22px) rotateY(-5deg);
-  }
-
-  .reconstruction.is-pinned .flight-card:nth-child(3) {
-    z-index: 1;
-    transform: translate(-50%, -50%) translateZ(-170px) translateX(-20px) translateY(65px) rotateY(4deg);
+    max-width: 390px;
+    transition: none;
+    will-change: transform, opacity;
   }
 }
 

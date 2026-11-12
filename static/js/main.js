@@ -833,9 +833,9 @@
     scrollTriggerInstance?.kill(true);
     scrollTriggerInstance = undefined;
     if (!flight) return;
-    const cards = $$(".flight-card", flight);
+    const cards = $$(".memory-flight > .flight-card", flight);
     const gsapAvailable = window.gsap && window.ScrollTrigger;
-    const shouldPin = desktopMotion.matches && !reducedMotion.matches && gsapAvailable;
+    const shouldPin = desktopMotion.matches && cards.length > 0 && gsapAvailable;
     flight.classList.toggle("is-pinned", Boolean(shouldPin));
     if (!shouldPin) {
       cards.forEach((item, index) => {
@@ -846,27 +846,71 @@
       return;
     }
     gsap.registerPlugin(ScrollTrigger);
+    const use3d = !reducedMotion.matches;
+    cards.forEach((item, index) => {
+      gsap.set(item, {
+        xPercent: -50,
+        yPercent: -50,
+        z: use3d && index > 0 ? -70 : 0,
+        y: use3d && index > 0 ? 20 : 0,
+        scale: use3d && index > 0 ? .92 : 1,
+        rotateY: 0,
+        opacity: index === 0 ? 1 : 0,
+        zIndex: index === 0 ? 10 : 1,
+      });
+    });
+
+    const segmentDuration = 2.2;
+    const holdDuration = 1.4;
+    const exitDuration = .3;
+    const enterDuration = .5;
     const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: flight,
         start: "top top+=72",
-        end: "+=150%",
+        end: () => `+=${window.innerHeight * 3}`,
         pin: true,
         scrub: 1,
         invalidateOnRefresh: true,
       },
     });
-    cards.forEach((item, index) => {
-      timeline.to(item, {
-        z: 260 + index * 170,
-        x: (index - 1) * 25,
-        y: (index - 1) * -35,
-        rotateY: (index - 1) * -5,
-        opacity: index === cards.length - 1 ? 1 : .45,
+    for (let index = 0; index < cards.length - 1; index += 1) {
+      const current = cards[index];
+      const incoming = cards[index + 1];
+      const exitAt = index * segmentDuration + holdDuration;
+      const enterAt = exitAt + exitDuration;
+
+      timeline.set(current, { zIndex: 1 }, exitAt);
+      timeline.to(current, {
+        ...(use3d ? {
+          z: -80,
+          y: -12,
+          scale: .9,
+          rotateY: index % 2 === 0 ? 3 : -3,
+        } : {}),
+        opacity: 0,
+        duration: exitDuration,
         ease: "none",
-      }, index * .8);
-    });
+      }, exitAt);
+      timeline.set(incoming, { zIndex: 10 }, enterAt);
+      timeline.to(incoming, {
+        ...(use3d ? {
+          z: 0,
+          y: 0,
+          scale: 1,
+          rotateY: 0,
+        } : {}),
+        opacity: 1,
+        duration: enterDuration,
+        ease: "none",
+      }, enterAt);
+    }
+    if (cards.length) {
+      timeline.to({}, { duration: segmentDuration }, (cards.length - 1) * segmentDuration);
+    }
     scrollTriggerInstance = timeline.scrollTrigger;
+    ScrollTrigger.refresh();
+    if (document.fonts?.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
   }
   window.addEventListener("load", setupFlight, { once: true });
   desktopMotion.addEventListener?.("change", setupFlight);
