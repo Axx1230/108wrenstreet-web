@@ -564,6 +564,8 @@
     }
   }
 
+  loadMemoryTotal();
+
   if (memoryFeed) loadMemories();
 
   $$(".memory-wall .filter-pill").forEach((button) => {

@@ -21,7 +21,7 @@ The opening appointment scene pushes in as you scroll, and section content revea
 
 - `/`, `/oak-tree`, `/collaborate` — the narrative experience and deep links.
 - `/press` and `/press-kit` — standalone press kit, production stills gallery, and screening details. `/epk` redirects to the screening section.
-- `GET /api/memories?category=ALL|LOVE|LOSS|MEMORY|PEOPLE` and `POST /api/memories`
+- `GET /api/memories?category=ALL|LOVE|LOSS|MEMORY|PEOPLE|FAMILY` and `POST /api/memories`
 - `POST /api/rsvp`
 - `POST /api/collaborate`
 

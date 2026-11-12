@@ -225,6 +225,12 @@ def create_rsvp():
     name = payload["name"].strip()
     email = payload["email"].strip()
     seats = payload.get("seats", 1)
+    screening = get_db().execute(
+        "SELECT 1 FROM screenings WHERE event_id = ?",
+        (event_id,),
+    ).fetchone()
+    if screening is None:
+        return jsonify(error="Choose a valid screening."), 400
     if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
         return jsonify(error="Enter a valid email address."), 400
     if len(event_id) > 100 or len(name) > 100 or len(email) > 254:
