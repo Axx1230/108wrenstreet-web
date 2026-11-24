@@ -1,12 +1,12 @@
 (() => {
   "use strict";
 
-  const $ = window.WrenSite.$;
   const $$ = window.WrenSite.$$;
   const reducedMotion = window.WrenSite.reducedMotion;
   let observer = null;
   let previousScrollY = window.scrollY;
   let direction = "down";
+  let scrollScheduled = false;
 
   if ("IntersectionObserver" in window && !reducedMotion.matches) {
     observer = new IntersectionObserver((entries) => {
@@ -23,11 +23,16 @@
   }
 
   window.addEventListener("scroll", () => {
+    if (scrollScheduled) return;
+    scrollScheduled = true;
+    window.requestAnimationFrame(() => {
+      scrollScheduled = false;
     const currentScrollY = window.scrollY;
     if (currentScrollY !== previousScrollY) {
       direction = currentScrollY > previousScrollY ? "down" : "up";
       previousScrollY = currentScrollY;
     }
+    });
   }, { passive: true });
 
   function observe(elements) {

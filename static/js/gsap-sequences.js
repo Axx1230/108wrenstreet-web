@@ -10,13 +10,17 @@
   if (!gsap || !ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
 
+  const hardware = navigator.hardwareConcurrency || 8;
+  const memory = navigator.deviceMemory || 8;
+  const lowPowerDevice = hardware <= 4 || memory <= 4;
+
   // Intake: gently push the appointment scene toward the viewer on scroll.
   const intake = $("#intake");
   if (intake) {
     const cameraMotion = gsap.matchMedia();
     cameraMotion.add("(prefers-reduced-motion: no-preference)", () => {
       const scene = $(".appointment-scene", intake);
-      if (!scene) return;
+      if (!scene || lowPowerDevice) return;
       gsap.to(scene, {
         scale: 1.16,
         y: -36,
@@ -25,14 +29,15 @@
           trigger: intake,
           start: "top top",
           end: "bottom top",
-          scrub: .7,
+          scrub: .35,
           invalidateOnRefresh: true,
+          fastScrollEnd: true,
         },
       });
     });
   }
 
-  // Memory vault: a pinned 3D sequence with Lenis smooth-scroll integration.
+  // Memory vault: a pinned 3D sequence for capable desktop devices.
   const vault = $("#memory-vault");
   const vaultCards = $$(".vault-artifact-card", vault || document);
   const vaultStage = $(".vault-viewport-stage", vault || document);
@@ -41,26 +46,14 @@
     vaultMedia.add(
       "(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
       () => {
-        const glow = $(".ambient-radial-glow", vault);
-        const lenis = typeof window.Lenis === "function"
-          ? new window.Lenis({
-            autoRaf: false,
-            duration: 1.2,
-            easing: (time) => Math.min(1, 1.001 - Math.pow(2, -10 * time)),
-            smoothWheel: true,
-          })
-          : null;
-
-        const syncLenis = lenis ? (time) => lenis.raf(time * 1000) : null;
-        if (lenis && syncLenis) {
-          lenis.on("scroll", ScrollTrigger.update);
-          gsap.ticker.add(syncLenis);
-        }
-
+        if (lowPowerDevice) return;
         function setCardAccessible(card, active) {
           if (!active && card.contains(document.activeElement)) return;
-          card.inert = !active;
-          card.setAttribute("aria-hidden", String(!active));
+          const hidden = String(!active);
+          if (card.inert !== !active || card.getAttribute("aria-hidden") !== hidden) {
+            card.inert = !active;
+            card.setAttribute("aria-hidden", hidden);
+          }
         }
 
         function syncCardAccess() {
@@ -85,9 +78,8 @@
           gsap.set(card, {
             xPercent: -50,
             yPercent: -50,
-            z: index === 0 ? 0 : -index * 1450,
+            z: index === 0 ? 0 : -index * 280,
             opacity: index === 0 ? 1 : 0,
-            filter: index === 0 ? "blur(0px)" : "blur(16px)",
           });
         });
 
@@ -97,9 +89,10 @@
             start: "top top+=72",
             end: "bottom bottom",
             pin: vaultStage,
-            scrub: .8,
+            scrub: .35,
             anticipatePin: 1,
             invalidateOnRefresh: true,
+            fastScrollEnd: true,
             onUpdate: syncCardAccess,
           },
         });
@@ -110,38 +103,18 @@
             .to(card, {
               z: 0,
               opacity: 1,
-              filter: "blur(0px)",
               duration: 1.8,
               ease: "none",
             }, start)
             .to(card, {
-              z: 450,
+              z: 80,
               opacity: 0,
-              filter: "blur(20px)",
               duration: 1.2,
               ease: "none",
             }, start + 1.8);
         });
 
-        if (glow) {
-          timeline
-            .to(glow, {
-              background: "radial-gradient(circle at center, rgba(245, 158, 11, .22), transparent 70%)",
-              duration: 3,
-              ease: "none",
-            }, 0)
-            .to(glow, {
-              background: "radial-gradient(circle at center, rgba(15, 23, 42, .3), transparent 60%)",
-              duration: 3,
-              ease: "none",
-            }, 3.5);
-        }
-
         return () => {
-          if (lenis && syncLenis) {
-            gsap.ticker.remove(syncLenis);
-            lenis.destroy();
-          }
           vault.classList.remove("is-3d");
           vaultCards.forEach((card) => {
             card.removeEventListener("focusout", syncCardAccess);
@@ -170,7 +143,8 @@
       desktopMotion.matches &&
       cards.length > 0 &&
       gsap &&
-      ScrollTrigger;
+      ScrollTrigger &&
+      !lowPowerDevice;
 
     flight.classList.toggle("is-pinned", Boolean(shouldPin));
     if (!shouldPin) {
@@ -206,8 +180,9 @@
         start: "top top+=72",
         end: () => `+=${window.innerHeight * 3}`,
         pin: true,
-        scrub: 1,
+        scrub: .35,
         invalidateOnRefresh: true,
+        fastScrollEnd: true,
       },
     });
 

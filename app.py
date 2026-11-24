@@ -15,6 +15,18 @@ SCHEMA = BASE_DIR / "schema.sql"
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 32 * 1024
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 86400
+
+
+@app.after_request
+def add_cache_headers(response):
+    """Cache fingerprint-independent static assets in the browser for faster revisits."""
+    if request.path.startswith("/static/"):
+        if request.path.endswith((".css", ".js", ".svg", ".png", ".jpg", ".jpeg", ".webp")):
+            response.cache_control.clear()
+            response.cache_control.public = True
+            response.cache_control.max_age = 86400
+    return response
 
 
 def get_db():
@@ -26,7 +38,7 @@ def get_db():
 
 
 @app.teardown_appcontext
-def close_db(_error):
+def close_db(_):
     db = g.pop("db", None)
     if db is not None:
         db.close()

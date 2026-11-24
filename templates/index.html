@@ -1,4 +1,17 @@
 {% extends "base.html" %}
+{% block scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="{{ url_for('static', filename='js/gsap-sequences.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/secret-memory.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/appointment-card.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/dossier-tabs.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/artifacts.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/ambient-sound.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/countdown.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/memories.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/collaborate.js') }}" defer></script>
+{% endblock %}
 {% block content %}
 <!-- The inline value lets JavaScript scroll directly to a deep-linked section. -->
 <script>window.PAGE_SECTION = {{ page_section|tojson if page_section else 'null' }};</script>

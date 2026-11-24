@@ -4,13 +4,29 @@
   const $ = window.WrenSite.$;
   const $$ = window.WrenSite.$$;
   const navLinks = $$(".site-nav a");
+  const navToggle = $(".nav-toggle");
+  const siteNav = $("#site-navigation");
+
+  function closeMobileNav() {
+    if (!navToggle || !siteNav) return;
+    navToggle.setAttribute("aria-expanded", "false");
+    siteNav.classList.remove("is-open");
+  }
+
+  navToggle?.addEventListener("click", () => {
+    const opening = navToggle.getAttribute("aria-expanded") !== "true";
+    navToggle.setAttribute("aria-expanded", String(opening));
+    siteNav?.classList.toggle("is-open", opening);
+  });
+
+  navLinks.forEach((link) => link.addEventListener("click", closeMobileNav));
 
   const navTargets = (document.body.dataset.pageType === "press"
     ? [
       ["press-kit", ".press-hero"],
       ["press-kit", "#gallery"],
       ["press-kit", "#dossier"],
-      ["press-kit", ".press-video"],
+      ["press-kit", "#trailer"],
       ["screenings", "#screenings"],
       ["credits", "#credits"],
     ]

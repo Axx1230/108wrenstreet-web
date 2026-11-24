@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/press-gallery.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/trailer-chapters.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/dossier-tabs.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/rsvp.js') }}" defer></script>
+{% endblock %}
 {% block title %}Press &amp; Gallery — 108 Wren Street{% endblock %}
 {% block description %}Press kit, production stills, screening details, and production notes for 108 Wren Street.{% endblock %}
 {% block content %}

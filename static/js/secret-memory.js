@@ -11,7 +11,7 @@
     typeof modal.showModal !== "function") return;
 
   // State 0: hidden, 1: hover discovery, 2: hover left,
-  // 3: unlocked and ready to open.
+  // 3: unlocked and ready to open, 4: fully unlocked.
   let stage = 0;
   trigger.classList.add("easter-egg-word");
   trigger.setAttribute("tabindex", "0");
