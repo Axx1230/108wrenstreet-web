@@ -23,37 +23,41 @@
       <span class="sound-icon" aria-hidden="true">♫</span> AMBIENT SOUND <span class="sound-state">OFF</span>
     </button>
   </div>
-  <div class="intake-layout">
-    <div class="intake-copy">
-      <p class="eyebrow accent-cyan">PRIVATE <span class="memory-secret-zone"><span id="secret-memory-trigger">MEMORY</span></span> EXTRACTION / SESSION 01</p>
-      <h1 id="intake-title">The past is<br><em>still in there.</em></h1>
-      <p class="lede">Some memories ask to be kept. Others insist on being found. Your session is ready when you are.</p>
-      <div class="telemetry" aria-label="Session telemetry">
-        <div><span class="eyebrow">EXTRACTION WINDOW</span><strong id="countdown">00:13:37</strong></div>
-        <div><span class="eyebrow">MEMORY SYNAPSE</span><strong>100<span class="unit">%</span></strong></div>
-        <div class="telemetry-track" aria-hidden="true"><span></span></div>
+  <div class="cinema-frame">
+    <span class="film-timecode film-timecode-start" aria-hidden="true">TC 00:04:18:09</span>
+    <span class="film-timecode film-timecode-end" aria-hidden="true">35MM / 2.39:1</span>
+    <div class="intake-layout">
+      <div class="intake-copy">
+        <p class="eyebrow accent-cyan">PRIVATE <span class="memory-secret-zone"><span id="secret-memory-trigger">MEMORY</span></span> EXTRACTION / SESSION 01</p>
+        <h1 id="intake-title">The past is<br><em>still in there.</em></h1>
+        <p class="lede">Some memories ask to be kept. Others insist on being found. Your session is ready when you are.</p>
+        <div class="telemetry" aria-label="Session telemetry">
+          <div><span class="eyebrow">EXTRACTION WINDOW</span><strong id="countdown">00:13:37</strong></div>
+          <div><span class="eyebrow">MEMORY SYNAPSE</span><strong>100<span class="unit">%</span></strong></div>
+          <div class="telemetry-track" aria-hidden="true"><span></span></div>
+        </div>
+        <a class="button button-primary" href="#memory-vault">ENTER THE EXPERIENCE <span aria-hidden="true">→</span></a>
       </div>
-      <a class="button button-primary" href="#memory-vault">ENTER THE EXPERIENCE <span aria-hidden="true">→</span></a>
-    </div>
-    <div class="appointment-scene">
-      <button class="appointment-card" type="button" aria-label="Flip private appointment card" aria-pressed="false">
-        <span class="card-inner">
-          <span class="card-face card-front">
-            <span class="card-stamp">PRIVATE<br>APPOINTMENT</span>
-            <span class="card-mark">108<span>.</span></span>
-            <span class="card-label">MEMORY SERVICES / WREN STREET</span>
-            <span class="card-index">TURN TO INSPECT / 143</span>
+      <div class="appointment-scene">
+        <button class="appointment-card" type="button" aria-label="Flip private appointment card" aria-pressed="false">
+          <span class="card-inner">
+            <span class="card-face card-front">
+              <span class="card-stamp">PRIVATE<br>APPOINTMENT</span>
+              <span class="card-mark">108<span>.</span></span>
+              <span class="card-label">MEMORY SERVICES / WREN STREET</span>
+              <span class="card-index">TURN TO INSPECT / 143</span>
+            </span>
+            <span class="card-face card-back">
+              <span class="eyebrow">CLIENT COPY / 143-A</span>
+              <span class="card-back-title">Your memory<br>is waiting.</span>
+              <span class="card-label">SESSION 01 — PRIVATE INTAKE</span>
+              <span class="card-index">RETURN TO FRONT ↻</span>
+            </span>
           </span>
-          <span class="card-face card-back">
-            <span class="eyebrow">CLIENT COPY / 143-A</span>
-            <span class="card-back-title">Your memory<br>is waiting.</span>
-            <span class="card-label">SESSION 01 — PRIVATE INTAKE</span>
-            <span class="card-index">RETURN TO FRONT ↻</span>
-          </span>
-        </span>
-      </button>
-      <span class="flip-hint"><span class="pulse-dot"></span> TAP / DRAG TO FLIP CARD</span>
-      <span class="scene-coordinate">51°30'26.4"N / 00°07'39.6"W</span>
+        </button>
+        <span class="flip-hint"><span class="pulse-dot"></span> TAP / DRAG TO FLIP CARD</span>
+        <span class="scene-coordinate">51°30'26.4"N / 00°07'39.6"W</span>
+      </div>
     </div>
   </div>
   <div class="dossier">
@@ -84,8 +88,8 @@
           <button class="artifact-trigger artifact-novel" type="button" data-artifact="novel" aria-haspopup="dialog" aria-labelledby="art-1-title art-1-quote">
             <span class="artifact-visual book-cover" aria-hidden="true">
               <svg class="artifact-svg" viewBox="0 0 100 120">
-                <rect x="2" y="2" width="96" height="116" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-                <text x="50" y="62" text-anchor="middle" fill="#f8fafc" font-size="9">SELECTED POEMS</text>
+                <rect x="2" y="2" width="96" height="116" rx="1" fill="#302920" stroke="#8A8379" stroke-width="1"/>
+                <text x="50" y="62" text-anchor="middle" fill="#EAE4D7" font-size="9">SELECTED POEMS</text>
               </svg>
             </span>
             <span class="artifact-content">
@@ -101,8 +105,8 @@
           <button class="artifact-trigger artifact-teaspoon" type="button" data-artifact="teaspoon" aria-haspopup="dialog" aria-labelledby="art-2-title art-2-quote">
             <span class="artifact-visual spoon-visual" aria-hidden="true">
               <svg class="artifact-svg" viewBox="0 0 40 140">
-                <ellipse cx="20" cy="30" rx="15" ry="25" fill="#64748b" stroke="#f59e0b" stroke-width="2"/>
-                <rect x="18" y="55" width="4" height="80" rx="2" fill="#94a3b8"/>
+                <ellipse cx="20" cy="30" rx="15" ry="25" fill="#6B8791" stroke="#D4944A" stroke-width="1"/>
+                <rect x="18" y="55" width="4" height="80" rx="1" fill="#8A8379"/>
               </svg>
             </span>
             <span class="artifact-content">
@@ -118,7 +122,7 @@
           <button class="artifact-trigger artifact-ring" type="button" data-artifact="ring" aria-haspopup="dialog" aria-labelledby="art-3-title art-3-quote">
             <span class="artifact-visual ring-visual" aria-hidden="true">
               <svg class="artifact-svg" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="35" fill="none" stroke="#f59e0b" stroke-width="6"/>
+                <circle cx="50" cy="50" r="35" fill="none" stroke="#D4944A" stroke-width="4"/>
               </svg>
             </span>
             <span class="artifact-content">
@@ -198,7 +202,7 @@
         <details class="production-item"><summary><span>02</span> LIGHTING <span class="production-spec">PRACTICAL / NATURAL SOURCES</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Warm practical sources anchor the remembered world; clinical cool tones frame the extraction room.</p></div></div></details>
         <details class="production-item"><summary><span>03</span> SOUND <span class="production-spec">SPATIAL / SUBJECTIVE</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Room tone, breath and small recurring sounds move between present-tense clarity and the soft distortion of recollection.</p></div></div></details>
         <details class="production-item"><summary><span>04</span> EDITING <span class="production-spec">NOAH LEWIS / MEMORY RHYTHM</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Fragments overlap and return with changed meaning, letting the emotional edit follow the logic of remembering.</p></div></div></details>
-        <details class="production-item"><summary><span>05</span> COLOUR <span class="production-spec">AMBER / CLINICAL CYAN</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Two tonal worlds distinguish the fragile warmth of lived moments from the precise, cool present of the memory service.</p></div></div></details>
+        <details class="production-item"><summary><span>05</span> COLOUR <span class="production-spec">TUNGSTEN / SLATE-BLUE</span><span class="accordion-icon" aria-hidden="true">+</span></summary><div class="accordion-grid"><div class="accordion-content"><p>Two tonal worlds distinguish the fragile warmth of lived moments from the precise, cool present of the memory service.</p></div></div></details>
       </div>
     </div>
     <div class="crew">
