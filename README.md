@@ -2,6 +2,16 @@
 
 A Flask/Jinja2 single-page film experience with SQLite-backed memory, RSVP, and collaborator forms.
 
+## Source guide
+
+- `app.py` — Flask routes, SQLite access, JSON validation, gallery path checks, and press-kit data helpers.
+- `schema.sql` — database tables, constraints, indexes, and the default screening seed records.
+- `templates/base.html` — shared document shell, navigation, external animation libraries, and global scripts.
+- `templates/index.html` — narrative page sections, memory-wall form, dialogs, and collaboration form.
+- `templates/press-kit.html` — press hero, still gallery, dossier, trailer, screenings, crew, and archive.
+- `static/js/main.js` — browser behavior, API calls, native dialogs, pointer interactions, GSAP, and Web Audio.
+- `static/css/style.css` — design tokens, responsive layouts, narrative sections, dialogs, and motion preferences.
+
 ## Run locally
 
 Requires Python 3.11 or newer.

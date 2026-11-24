@@ -7,6 +7,8 @@ from pathlib import Path
 from flask import Flask, g, jsonify, redirect, render_template, request, url_for
 
 
+# Project paths and Flask configuration.
+# DATABASE_PATH allows deployments or tests to use a separate SQLite file.
 BASE_DIR = Path(__file__).resolve().parent
 DATABASE = Path(os.environ.get("DATABASE_PATH", BASE_DIR / "database.db"))
 SCHEMA = BASE_DIR / "schema.sql"
@@ -16,6 +18,7 @@ app.config["MAX_CONTENT_LENGTH"] = 32 * 1024
 
 
 def get_db():
+    """Return the request-local SQLite connection and enable named row access."""
     if "db" not in g:
         g.db = sqlite3.connect(DATABASE)
         g.db.row_factory = sqlite3.Row
@@ -30,6 +33,7 @@ def close_db(_error):
 
 
 def initialize_database():
+    """Create database tables and migrate the legacy memory category list."""
     DATABASE.parent.mkdir(parents=True, exist_ok=True)
     with sqlite3.connect(DATABASE) as db:
         db.executescript(SCHEMA.read_text(encoding="utf-8"))
@@ -61,6 +65,7 @@ def initialize_database():
 
 
 def get_gallery_assets():
+    """Load published gallery rows and convert database paths into safe static URLs."""
     rows = get_db().execute(
         "SELECT id, title, scene_name, category, image_path, download_path, "
         "aspect_ratio, camera, lens FROM gallery_assets "
@@ -90,6 +95,7 @@ def get_gallery_assets():
 
 
 def get_screenings():
+    """Load screening records for the public press page."""
     rows = get_db().execute(
         "SELECT event_id, city, country, name, venue, starts_at, display_time "
         "FROM screenings ORDER BY starts_at"
@@ -98,6 +104,7 @@ def get_screenings():
 
 
 def get_trailer_chapters():
+    """Load trailer chapter names and convert seconds into MM:SS display labels."""
     rows = get_db().execute(
         "SELECT label, time_seconds FROM trailer_chapters ORDER BY display_order, id"
     ).fetchall()
@@ -111,6 +118,7 @@ def get_trailer_chapters():
 
 
 def json_payload(required_fields):
+    """Parse a JSON object and require non-empty string values for the named fields."""
     payload = request.get_json(silent=True)
     if not isinstance(payload, dict):
         return None, (jsonify(error="A JSON object is required."), 400)
@@ -122,26 +130,31 @@ def json_payload(required_fields):
 
 @app.get("/")
 def home():
+    """Render the main narrative experience."""
     return render_template("index.html")
 
 
 @app.get("/oak-tree")
 def oak_tree():
+    """Deep-link directly to the memory-wall page section."""
     return render_template("index.html", page_section="oak-tree")
 
 
 @app.get("/epk")
 def epk():
+    """Redirect the legacy EPK URL to the screenings section."""
     return redirect("/press#screenings", code=302)
 
 
 @app.get("/collaborate")
 def collaborate():
+    """Deep-link directly to the collaborator form."""
     return render_template("index.html", page_section="collaborate")
 
 
 @app.get("/api/memories")
 def get_memories():
+    """Return the newest 100 memories for ALL or one validated category."""
     category = request.args.get("category", "ALL").strip().upper()
     allowed_categories = {"ALL", "LOVE", "LOSS", "MEMORY", "PEOPLE", "FAMILY"}
     if category not in allowed_categories:
@@ -165,6 +178,7 @@ def get_memories():
 @app.get("/press")
 @app.get("/press-kit")
 def press_kit():
+    """Render the press kit and provide database-backed gallery, screening, and trailer data."""
     downloads_dir = BASE_DIR / "static" / "downloads"
     trailer_file = BASE_DIR / "static" / "videos" / "official-trailer.mp4"
     return render_template(
@@ -181,11 +195,13 @@ def press_kit():
 
 @app.get("/api/memories/count")
 def memories_count():
+    """Return the total number of submitted memories."""
     total = get_db().execute("SELECT COUNT(*) FROM memories").fetchone()[0]
     return jsonify(total=total)
 
 @app.post("/api/memories")
 def create_memory():
+    """Validate and insert a new memory-wall submission."""
     payload, error = json_payload(("body",))
     if error:
         return error
@@ -218,6 +234,7 @@ def create_memory():
 
 @app.post("/api/rsvp")
 def create_rsvp():
+    """Validate and store an RSVP for an existing screening event."""
     payload, error = json_payload(("event_id", "name", "email"))
     if error:
         return error
@@ -249,6 +266,7 @@ def create_rsvp():
 
 @app.post("/api/collaborate")
 def create_collaborator():
+    """Validate and store an open-call/collaboration submission."""
     payload, error = json_payload(("name", "email", "specialism"))
     if error:
         return error
@@ -288,7 +306,61 @@ def create_collaborator():
 
 @app.errorhandler(413)
 def request_too_large(_error):
-    return jsonify(error="The submitted form is too large."), 413
+    if request.path.startswith("/api/"):
+        return jsonify(error="The submitted form is too large."), 413
+    return render_template(
+        "error.html",
+        error_code=413,
+        error_title="Payload rejected",
+        error_message="The submitted file or form is larger than this system can accept.",
+    ), 413
+
+@app.errorhandler(404)
+def page_not_found(_error):
+    if request.path.startswith("/api/"):
+        return jsonify(error="API endpoint not found."), 404
+    return render_template(
+        "error.html",
+        error_code=404,
+        error_title="Memory not found",
+        error_message="The requested file does not exist or may have been moved from the archive.",
+    ), 404
+
+
+@app.errorhandler(405)
+def method_not_allowed(_error):
+    if request.path.startswith("/api/"):
+        return jsonify(error="Method not allowed."), 405
+    return render_template(
+        "error.html",
+        error_code=405,
+        error_title="Invalid method",
+        error_message="This address cannot be reached using the requested action.",
+    ), 405
+
+
+@app.errorhandler(500)
+def internal_server_error(_error):
+    if request.path.startswith("/api/"):
+        return jsonify(error="An internal server error occurred."), 500
+    return render_template(
+        "error.html",
+        error_code=500,
+        error_title="Extraction failed",
+        error_message="The system encountered an unexpected fault while processing this request.",
+    ), 500
+
+
+@app.errorhandler(505)
+def unsupported_http_version(_error):
+    if request.path.startswith("/api/"):
+        return jsonify(error="HTTP version not supported."), 505
+    return render_template(
+        "error.html",
+        error_code=505,
+        error_title="Protocol rejected",
+        error_message="This memory service does not support the HTTP version used by the request.",
+    ), 505
 
 
 with app.app_context():

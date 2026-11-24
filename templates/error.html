@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{{ error_code }} — {{ error_title }} | 108 Wren Street{% endblock %}
+
+{% block description %}{{ error_code }} error — {{ error_title }}.{% endblock %}
+
+{% block content %}
+<section class="error-page section-shell" aria-labelledby="error-title">
+  <div class="error-code" aria-hidden="true">{{ error_code }}</div>
+  <div class="error-panel">
+    <p class="eyebrow accent-cyan">SYSTEM RESPONSE // HTTP {{ error_code }}</p>
+    <h1 id="error-title">{{ error_title }}</h1>
+    <p class="lede">{{ error_message }}</p>
+    <div class="error-actions">
+      <a class="button button-primary" href="/">RETURN TO THE EXPERIENCE <span aria-hidden="true">→</span></a>
+      <a class="button error-back" href="javascript:history.back()">GO BACK <span aria-hidden="true">←</span></a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- Global metadata, fonts, stylesheet, and page-specific Jinja title data. -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0A0B0D">
@@ -40,6 +41,22 @@
   {% endif %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="{{ url_for('static', filename='js/core.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/api-client.js') }}" defer></script>
   <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/scroll-reveal.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/navigation.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/gsap-sequences.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/secret-memory.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/press-gallery.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/trailer-chapters.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/appointment-card.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/dossier-tabs.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/artifacts.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/ambient-sound.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/countdown.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/memories.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/rsvp.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/collaborate.js') }}" defer></script>
 </body>
 </html>

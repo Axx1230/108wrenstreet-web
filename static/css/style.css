@@ -1,3 +1,6 @@
+/* --------------------------------------------------------------------------
+   Design tokens: central colors, typography, and responsive page gutter
+   -------------------------------------------------------------------------- */
 :root {
   color-scheme: dark;
   --bg-void: #0a0b0d;
@@ -15,6 +18,9 @@
   --page-gutter: clamp(1.25rem, 6vw, 6.5rem);
 }
 
+/* --------------------------------------------------------------------------
+   Global reset, document defaults, links, and keyboard focus
+   -------------------------------------------------------------------------- */
 * {
   box-sizing: border-box;
 }
@@ -89,6 +95,9 @@ button {
   transform: translateY(0);
 }
 
+/* --------------------------------------------------------------------------
+   Header, navigation, status indicator, and skip navigation
+   -------------------------------------------------------------------------- */
 .site-header {
   position: sticky;
   z-index: 20;
@@ -192,6 +201,81 @@ button {
 .section-shell {
   padding: clamp(5rem, 10vw, 9rem) var(--page-gutter);
   border-bottom: 1px solid var(--border-clinical);
+}
+
+/* --------------------------------------------------------------------------
+   Custom HTTP error page
+   -------------------------------------------------------------------------- */
+.error-page {
+  min-height: calc(100vh - 72px);
+  display: grid;
+  grid-template-columns: minmax(180px, .55fr) minmax(280px, 1.45fr);
+  align-items: center;
+  gap: clamp(2rem, 7vw, 7rem);
+  background:
+    radial-gradient(circle at 18% 50%, rgba(245, 158, 11, .08), transparent 28%),
+    linear-gradient(135deg, transparent 68%, rgba(56, 189, 248, .04));
+}
+
+.error-code {
+  font-family: var(--font-serif);
+  font-size: clamp(7rem, 20vw, 16rem);
+  line-height: .75;
+  letter-spacing: -.08em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(248, 250, 252, .24);
+  text-shadow: 12px 12px 40px rgba(56, 189, 248, .08);
+}
+
+.error-panel {
+  max-width: 690px;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  border: 1px solid var(--border-clinical);
+  background: rgba(19, 21, 26, .82);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .28);
+}
+
+.error-panel h1 {
+  margin-bottom: 1.1rem;
+  font-size: clamp(3rem, 7vw, 6rem);
+}
+
+.error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  margin-top: 2rem;
+}
+
+.error-back {
+  border: 1px solid var(--border-active);
+  background: transparent;
+  color: var(--text-main);
+}
+
+.error-back:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+@media (max-width: 767px) {
+  .error-page {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 1.5rem;
+  }
+
+  .error-code {
+    font-size: clamp(6rem, 35vw, 10rem);
+  }
+
+  .error-actions {
+    flex-direction: column;
+  }
+
+  .error-actions .button {
+    width: 100%;
+  }
 }
 
 [data-scroll-reveal] {
@@ -321,6 +405,9 @@ h2 em,
   color: var(--text-main);
 }
 
+/* --------------------------------------------------------------------------
+   Screen 1: intake terminal, dossier tabs, and flip card
+   -------------------------------------------------------------------------- */
 /* Screen 1: intake terminal */
 .intake {
   min-height: calc(100svh - 72px);
@@ -641,6 +728,9 @@ h2 em,
   margin-left: auto;
 }
 
+/* --------------------------------------------------------------------------
+   Screen 2: vault artifacts and scroll reconstruction
+   -------------------------------------------------------------------------- */
 /* Screen 2: artifacts and scroll reconstruction */
 .section-heading {
   display: flex;
@@ -979,6 +1069,9 @@ h2 em,
   color: var(--text-muted);
 }
 
+/* --------------------------------------------------------------------------
+   Screen 3: community memory wall and forms
+   -------------------------------------------------------------------------- */
 /* Screen 3: community memory wall */
 .memorial {
   background: radial-gradient(ellipse at 70% 20%, rgba(245, 158, 11, .045), transparent 45%);
@@ -1183,6 +1276,9 @@ h2 em,
   font-size: .72rem;
 }
 
+/* --------------------------------------------------------------------------
+   Screen 4: press kit, screening cards, and RSVP
+   -------------------------------------------------------------------------- */
 /* Screen 4: press kit and screening RSVP */
 .film-facts {
   display: grid;
@@ -1310,6 +1406,9 @@ h2 em,
   white-space: nowrap;
 }
 
+/* --------------------------------------------------------------------------
+   Screen 5: collaborators, production breakdown, and crew
+   -------------------------------------------------------------------------- */
 /* Screen 5: collaborators and production notes */
 .production-layout {
   display: grid;
@@ -1480,6 +1579,9 @@ h2 em,
   justify-self: start;
 }
 
+/* --------------------------------------------------------------------------
+   Native dialog overlays: memory, RSVP, and production stills
+   -------------------------------------------------------------------------- */
 /* Native dialog overlays */
 dialog {
   color: var(--text-main);
@@ -1635,6 +1737,9 @@ dialog {
   }
 }
 
+/* --------------------------------------------------------------------------
+   Responsive and motion preferences
+   -------------------------------------------------------------------------- */
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
   .reconstruction.is-pinned {
     min-height: 100vh;

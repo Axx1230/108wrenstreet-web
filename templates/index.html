@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- CHANGED: pass section name from Flask to JS -->
+<!-- The inline value lets JavaScript scroll directly to a deep-linked section. -->
 <script>window.PAGE_SECTION = {{ page_section|tojson if page_section else 'null' }};</script>
+<!-- Opening intake: session status, ambient-sound control, and dossier tabs. -->
 <section class="intake section-shell" id="intake" aria-labelledby="intake-title">
   <div class="intake-topline">
     <p class="eyebrow">108 WREN STREET / MEMORY SERVICES <span>//</span> CASE FILE #143</p>
@@ -56,6 +57,7 @@
   </div>
 </section>
 
+<!-- Memory-vault: three interactive artifacts, enhanced by scroll-driven GSAP. -->
 <section class="vault section-shell" id="memory-vault" aria-labelledby="vault-title">
   <div class="section-heading">
     <div><p class="eyebrow">01 / CASE RECONSTRUCTION</p><h2 id="vault-title">Forget the past.<br><em>Remember now.</em></h2></div>
@@ -121,6 +123,7 @@
   <div class="vault-footnote"><span>SELECT AN OBJECT TO BEGIN RECONSTRUCTION</span><span>MEMORY INTEGRITY / 68.4%</span></div>
 </section>
 
+<!-- Reconstruction: desktop-pinned sequence of three memory fragments. -->
 <section class="reconstruction section-shell" aria-label="Memory reconstruction sequence">
   <div class="reconstruction-copy">
     <p class="eyebrow">02 / MEMORY VAULT</p><h2>What do you keep<br>when you <em>let go?</em></h2>
@@ -134,6 +137,7 @@
   </div>
 </section>
 
+<!-- Community memory wall: submission form and category-filtered feed. -->
 <section class="memorial section-shell" id="oak-tree" aria-labelledby="memorial-title">
   <div class="section-heading memorial-heading">
     <div><p class="eyebrow accent-amber">03 / THE OAK TREE</p><h2 id="memorial-title">What remains when<br><em>love is forgotten?</em></h2><p class="lede">Leave a memory you refuse to erase.</p>
@@ -170,6 +174,7 @@
   </div>
 </section>
 
+<!-- Production information and collaboration submission form. -->
 <section class="collaborate section-shell" id="collaborate" aria-labelledby="collaborate-title">
   <div class="section-heading"><div><p class="eyebrow">05 / COLLABORATOR NETWORK</p><h2 id="collaborate-title">Make room for<br><em>another voice.</em></h2></div><span class="section-note">OPEN CALL<br>ALL DISCIPLINES</span></div>
   <div class="production-layout">
@@ -207,6 +212,7 @@
   </div>
 </section>
 
+<!-- Native modal dialogs used for artifact details and screening RSVPs. -->
 <dialog class="memory-dialog" id="artifact-dialog" aria-labelledby="artifact-dialog-title">
   <form method="dialog"><button class="dialog-close" aria-label="Close memory">×</button></form>
   <p class="eyebrow" id="artifact-dialog-kicker">OBJECT / 01</p><h2 id="artifact-dialog-title"></h2>

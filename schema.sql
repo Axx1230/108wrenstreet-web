@@ -1,3 +1,4 @@
+-- Memory wall records. Categories are intentionally restricted so filters stay predictable.
 CREATE TABLE IF NOT EXISTS memories (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     body TEXT NOT NULL CHECK (length(body) BETWEEN 1 AND 280),
@@ -10,6 +11,7 @@ CREATE TABLE IF NOT EXISTS memories (
 CREATE INDEX IF NOT EXISTS memories_category_created_at
     ON memories (category, created_at DESC);
 
+-- Screening reservations submitted by the website.
 CREATE TABLE IF NOT EXISTS rsvps (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     event_id TEXT NOT NULL,
@@ -19,6 +21,7 @@ CREATE TABLE IF NOT EXISTS rsvps (
     created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 
+-- Open-call submissions from people who want to collaborate on the film.
 CREATE TABLE IF NOT EXISTS collaborators (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -30,6 +33,7 @@ CREATE TABLE IF NOT EXISTS collaborators (
     created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 
+-- Press-gallery metadata and paths. Only is_published = 1 rows are returned to Flask.
 CREATE TABLE IF NOT EXISTS gallery_assets (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
@@ -44,6 +48,7 @@ CREATE TABLE IF NOT EXISTS gallery_assets (
     is_published INTEGER NOT NULL DEFAULT 0 CHECK (is_published IN (0, 1))
 );
 
+-- Public screening records used by the press kit and RSVP API validation.
 CREATE TABLE IF NOT EXISTS screenings (
     event_id TEXT PRIMARY KEY,
     city TEXT NOT NULL,
@@ -54,6 +59,7 @@ CREATE TABLE IF NOT EXISTS screenings (
     display_time TEXT NOT NULL
 );
 
+-- Optional trailer seek markers shown on the press page.
 CREATE TABLE IF NOT EXISTS trailer_chapters (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     label TEXT NOT NULL,
@@ -61,6 +67,7 @@ CREATE TABLE IF NOT EXISTS trailer_chapters (
     display_order INTEGER NOT NULL DEFAULT 0
 );
 
+-- Seed screening records; INSERT OR IGNORE preserves any existing database edits.
 INSERT OR IGNORE INTO screenings
     (event_id, city, country, name, venue, starts_at, display_time)
 VALUES
